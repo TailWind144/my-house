@@ -50,6 +50,15 @@ const clickSwitchDark = (e) => {
     Math.max(x, innerWidth - x),
     Math.max(y, innerHeight - y)
   )
+  const updateDrakFlag = () => {
+    isDarkFlag.value = !isDarkFlag.value
+    toggleDark()
+  }
+
+  if (!document.startViewTransition) {
+    updateDrakFlag()
+    return
+  }
 
   const transition = document.startViewTransition(() => {
     updateDrakFlag()
@@ -73,11 +82,6 @@ const clickSwitchDark = (e) => {
       }
     )
   })
-
-  const updateDrakFlag = () => {
-    isDarkFlag.value = !isDarkFlag.value
-    toggleDark()
-  }
 }
 </script>
 

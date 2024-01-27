@@ -3,7 +3,7 @@
     <div v-for="(value, key) in blogList" :key="key">
       <div class="relative h-20 select-none">
         <span
-          class="year absolute -left-12 top-3 text-9xl font-bold text-transparent opacity-20 dark:opacity-10"
+          class="year absolute -left-8 top-3 text-9xl font-bold text-transparent opacity-20 dark:opacity-10"
         >
           {{ key }}
         </span>
@@ -11,7 +11,7 @@
       <router-link
         v-for="(item, i) in value"
         :key="i"
-        class="item mb-5 mt-2 flex items-center gap-2"
+        class="item mb-4 mt-2 flex items-center gap-2"
         :to="item.path"
       >
         <div class="text-lg">
@@ -63,7 +63,7 @@ const getBlogList = () => {
   }
 
   if (Object.keys(blogList.value).length === 0)
-    blogList.value['暂无文章'] = []
+    blogList.value['暂无'] = []
 
   for (const year of Object.keys(blogList.value)) {
     blogList.value[year].sort(
