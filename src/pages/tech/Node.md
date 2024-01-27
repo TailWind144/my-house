@@ -8,11 +8,11 @@ type: tech
 
 ## 事件循环
 
-1. **timer **阶段：执行 <u>setTimeout</u> 和 <u>setInterval</u> 注册的回调函数。
-2. **pending callback **阶段：执行上一次事件循环中被延时的 I/O 回调函数。
+1. **timer**阶段：执行 <u>setTimeout</u> 和 <u>setInterval</u> 注册的回调函数。
+2. **pending callback**阶段：执行上一次事件循环中被延时的 I/O 回调函数。
 3. **idle prepare** 阶段：仅用于 nodejs 内部模块的使用。
-4. **poll **轮询阶段：轮询是否有 I/O 任务完成，如果有则执行相应的回调函数。否则，会在此阶段一直等待新的任务到达。当有  <u>setImmediate</u> 注册的回调函数时，那么将会进入 check 阶段。
-5. **check **阶段：执行 <u>setImmediate</u> 注册的回调函数。
+4. **poll**轮询阶段：轮询是否有 I/O 任务完成，如果有则执行相应的回调函数。否则，会在此阶段一直等待新的任务到达。当有  <u>setImmediate</u> 注册的回调函数时，那么将会进入 check 阶段。
+5. **check**阶段：执行 <u>setImmediate</u> 注册的回调函数。
 6. **close** 阶段：执行 <u>close</u> 事件的回调函数。
 
 每个阶段完成后，需要执行 **nextTick** 队列和微任务队列中的任务，nextTick 的优先级<u>大于</u>微任务的优先级。

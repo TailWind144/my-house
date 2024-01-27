@@ -18,11 +18,9 @@
 
 ol {
   list-style: decimal;
-  list-style-position: inside;
 }
 ul {
   list-style: circle;
-  list-style-position: inside;
 }
 
 .prose {
