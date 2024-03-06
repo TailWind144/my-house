@@ -17,13 +17,24 @@
       <Sunny v-else />
     </div>
   </div>
+  <button
+    title="Scroll to top"
+    :class="
+      (scroll > 300
+        ? 'opacity-30'
+        : 'pointer-events-none opacity-0') +
+      ' fixed bottom-3 right-3 z-50 flex h-10 w-10 items-center justify-center rounded-full transition duration-300 hover:bg-[#8883] hover:opacity-100 print:hidden'
+    "
+    @click="toTop()"
+  >
+    <Top class="h-7 w-7" />
+  </button>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useDark, useToggle } from '@vueuse/core'
-import { Sunny } from '@element-plus/icons-vue'
-import { Moon } from '@element-plus/icons-vue'
+import { useDark, useToggle, useWindowScroll } from '@vueuse/core'
+import { Sunny, Moon, Top } from '@element-plus/icons-vue'
 const nav = ref([
   {
     name: '首页',
@@ -83,6 +94,15 @@ const clickSwitchDark = (e) => {
     )
   })
 }
+
+function toTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
+}
+
+const { y: scroll } = useWindowScroll()
 </script>
 
 <style scoped></style>

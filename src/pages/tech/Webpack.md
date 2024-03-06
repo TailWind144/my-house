@@ -4,7 +4,7 @@ date: 2023/9/16
 type: tech
 ---
 
-# Webpack
+[[toc]]
 
 ## 解决的问题
 

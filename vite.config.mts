@@ -8,6 +8,7 @@ import matter from 'gray-matter'
 import fs from 'fs-extra'
 import vue from '@vitejs/plugin-vue'
 import anchor from 'markdown-it-anchor'
+import TOC from 'markdown-it-table-of-contents'
 import { bundledLanguages, getHighlighter } from 'shikiji'
 
 // https://vitejs.dev/config/
@@ -19,7 +20,8 @@ export default defineConfig({
     }),
     Components({ dirs: ['src/pages/game', 'src/pages/tech'] }),
     Markdown({
-      wrapperClasses: 'prose',
+      wrapperComponent: 'WrapperBlog',
+      wrapperClasses: 'prose slide-enter-content',
       async markdownItSetup(md) {
         const shiki = await getHighlighter({
           themes: ['vitesse-dark', 'vitesse-light'],
@@ -38,13 +40,18 @@ export default defineConfig({
             })
           }
         })
-        // md.use(anchor, {
-        //   slugify,
-        //   permalink: anchor.permalink.linkInsideHeader({
-        //     symbol: '#',
-        //     renderAttrs: () => ({ 'aria-hidden': 'true' })
-        //   })
-        // })
+        md.use(anchor, {
+          permalinkBefore: true,
+          permalink: anchor.permalink.linkInsideHeader({
+            symbol: '#',
+            renderAttrs: () => ({ 'aria-hidden': 'true' })
+          })
+        })
+        md.use(TOC, {
+          includeLevel: [1, 2, 3, 4],
+          containerHeaderHtml:
+            '<div class="table-of-contents-anchor"><Menu /></div>'
+        })
       }
     }),
     Pages({
@@ -55,7 +62,7 @@ export default defineConfig({
       extensions: ['vue', 'md'],
       extendRoute(route) {
         const path = resolve(__dirname, route.component.slice(1))
-        if (!path.includes('projects.md') && path.endsWith('.md')) {
+        if (path.endsWith('.md')) {
           const md = fs.readFileSync(path, 'utf-8')
           const { data } = matter(md, { eval: true })
           route.meta = Object.assign(route.meta || {}, {

@@ -4,7 +4,7 @@ date: 2023/8/19
 type: tech
 ---
 
-# View Transitions API
+[[toc]]
 
 这个API很有意思，利用这个API可以很好很方便地实现一些动画效果。
 

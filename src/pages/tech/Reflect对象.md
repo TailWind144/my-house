@@ -4,7 +4,7 @@ date: 2023/11/14
 type: tech
 ---
 
-# Reflect 对象
+[[toc]]
 
 **Reflect** 对象提供拦截 JavaScript 操作（默认行为）的方法。Reflect 对象的主要目的是替代一些原本存在于 JS 中的<u>全局对象</u>（例如 Object 、Function 等）上的方法。这些方法与 **Proxy** 对象中提供的捕获函数相同，所以通常这两者会结合使用。Proxy 对象拦截底层对象的操作，Reflect 对象来执行默认行为或其他自定义行为。
 

@@ -4,7 +4,7 @@ date: 2023/8/29
 type: tech
 ---
 
-# Vue3中Diff算法的改进
+[[toc]]
 
 大家都知道，Vue3中采用的diff算法为快速diff算法，而Vue2采用的为双端diff算法。快速diff算法与双端diff算法的重要区别在于，快速diff算法在进行diff之前会进行预处理，对于前置和后置相同的节点便不参与后续的diff比对，同时根据剩余的vnode生成最长递增子序列来协助后续的diff。除了算法本身之外，Vue3还做了有利于diff效率的其它改进。
 

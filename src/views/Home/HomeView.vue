@@ -1,6 +1,6 @@
 <template>
-  <div class="m-auto">
-    <h1>Tail Wind</h1>
+  <h1>Tail Wind</h1>
+  <div class="slide-enter-content m-auto">
     <p>
       你好，我是TailWind，一名热爱游戏的前端程序员。欢迎来到我的个人博客！
     </p>

@@ -16,13 +16,6 @@
   scrollbar-color: var(--c-scrollbar) var(--c-bg);
 }
 
-ol {
-  list-style: decimal;
-}
-ul {
-  list-style: circle;
-}
-
 .prose {
   --fg: #555;
   --fg-deep: #222;
@@ -101,6 +94,32 @@ a.item:hover {
   opacity: 1;
 }
 
+.prose ol > li {
+  position: relative;
+  padding-left: 1.75em;
+}
+.prose ol > li::before {
+  content: counter(list-item, var(--list-counter-style, decimal)) '.';
+  position: absolute;
+  font-weight: 400;
+  color: #6b7280;
+  left: 0;
+}
+.prose ul > li {
+  position: relative;
+  padding-left: 1.75em;
+}
+.prose ul > li::before {
+  content: '';
+  position: absolute;
+  background-color: #d1d5db;
+  border-radius: 50%;
+  width: 0.375em;
+  height: 0.375em;
+  top: 0.525em;
+  left: 0.25em;
+}
+
 html.dark .shiki,
 html.dark .shiki span {
   color: var(--s-dark) !important;
@@ -151,6 +170,154 @@ html.dark .shiki span {
   z-index: 1;
 }
 
+a.header-anchor {
+  float: left;
+  margin-top: 0.125em;
+  margin-left: -1.2em;
+  padding-right: 0.5em;
+  font-size: 0.85em;
+  opacity: 0;
+  text-decoration: none;
+  border: 0 !important;
+}
+
+a.header-anchor:hover,
+a.header-anchor:focus {
+  text-decoration: none;
+}
+
+h1:hover .header-anchor,
+h1:focus .header-anchor,
+h2:hover .header-anchor,
+h2:focus .header-anchor,
+h3:hover .header-anchor,
+h3:focus .header-anchor,
+h4:hover .header-anchor,
+h4:focus .header-anchor,
+h5:hover .header-anchor,
+h5:focus .header-anchor,
+h6:hover .header-anchor,
+h6:focus .header-anchor {
+  opacity: 0.5;
+}
+
+.table-of-contents {
+  position: fixed;
+  top: 60px;
+  bottom: 0;
+  font-size: 0.8em;
+  left: 30px;
+  z-index: 200;
+  overflow: hidden;
+  display: none;
+  width: 100px;
+  flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  .table-of-contents {
+    width: 200px;
+    display: flex;
+  }
+}
+
+@media (min-width: 1280px) {
+  .table-of-contents {
+    width: 300px;
+  }
+}
+
+.table-of-contents-anchor {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-width: 1px;
+  --un-border-opacity: 0.27;
+  border-color: rgb(136 136 136 / var(--un-border-opacity));
+  border-color: transparent;
+  border-radius: 0.25rem;
+  --un-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--un-bg-opacity));
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  --un-text-opacity: 0.47;
+  color: rgb(136 136 136 / var(--un-text-opacity));
+  --un-shadow: var(--un-shadow-inset) 0 1px 3px 0
+      var(--un-shadow-color, rgb(0 0 0 / 0.1)),
+    var(--un-shadow-inset) 0 1px 2px -1px var(--un-shadow-color, rgb(0
+            0 0 / 0.1));
+  --un-shadow: 0 0 var(--un-shadow-color, rgb(0 0 0 / 0));
+  box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
+    var(--un-shadow);
+  transition-property: color, background-color, border-color,
+    outline-color, text-decoration-color, fill, stroke, opacity,
+    box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.15s;
+  transition-duration: 0.4s;
+}
+
+.dark .table-of-contents-anchor {
+  --un-bg-opacity: 1;
+  background-color: rgb(0 0 0 / var(--un-bg-opacity));
+}
+
+.table-of-contents > ul {
+  text-overflow: ellipsis;
+  height: 100%;
+  overflow-y: auto;
+  margin-top: 0.25rem;
+  border-radius: 0.25rem;
+  padding-bottom: 1.25rem;
+  opacity: 0;
+  transition-property: color, background-color, border-color,
+    outline-color, text-decoration-color, fill, stroke, opacity,
+    box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.15s;
+  transition-duration: 0.7s;
+}
+
+*:hover > .table-of-contents > .table-of-contents-anchor,
+.toc-always-on .table-of-contents > .table-of-contents-anchor {
+  color: inherit;
+}
+
+.toc-always-on .table-of-contents > ul {
+  opacity: 0.6;
+}
+
+*:hover > .table-of-contents > ul {
+  opacity: 0.75;
+}
+
+.table-of-contents ul > li:before {
+  display: none;
+}
+
+.table-of-contents ul > li {
+  padding-left: 0.8rem;
+  line-height: 1.5em;
+  margin-top: 0.5em;
+}
+
+.table-of-contents ul > li > a {
+  opacity: 0.75;
+  transition-property: color, background-color, border-color,
+    outline-color, text-decoration-color, fill, stroke, opacity,
+    box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.15s;
+}
+
+.table-of-contents ul > li > a:hover {
+  opacity: 1;
+}
+
 @keyframes slide-enter {
   0% {
     opacity: 0;
@@ -162,7 +329,7 @@ html.dark .shiki span {
     transform: none;
   }
 }
-.slide-enter-content > * {
+.slide-enter-content > *:not(:has(.table-of-contents)) {
   --stagger: 0;
   --delay: 150ms;
   --start: 0ms;
