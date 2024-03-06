@@ -78,4 +78,6 @@ function updateView(event) {
 
 也就是说其实这里的实际DOM元素并不是相同的。对于不相同的DOM元素但意义上相同，我们可以通过在执行路由跳转前（DOM操作前）去设置该DOM元素的 view-transition-name 与跳转后对应DOM元素的 view-transition-name 相同即可实现上述动画效果。
 
-例如
+例如：
+
+（未完待续……）
