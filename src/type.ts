@@ -3,3 +3,8 @@ export interface Post {
   date: String
   type: String
 }
+
+export interface yearListObj {
+  year: String
+  list: Array<any>
+}
