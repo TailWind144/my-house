@@ -1,7 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import routes from '~pages'
 import HomeView from '../views/Home/HomeView.vue'
+import NProgress from 'nprogress'
 const BlogList = () => import('../views/Blog/components/BlogList.vue')
+
+NProgress.configure({
+  easing: 'ease',
+  speed: 500,
+  showSpinner: false
+})
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,10 +40,18 @@ const router = createRouter({
       ]
     },
     ...routes
-  ]
+  ],
+  scrollBehavior(to, from, savedPosition) {
+    if (to.hash) {
+      return { el: encodeURI(to.hash), behavior: 'smooth' }
+    } else {
+      return savedPosition || { top: 0 }
+    }
+  }
 })
 
 router.beforeEach((to, from, next) => {
+  if (to.name !== from.name) NProgress.start()
   if ('frontmatter' in to.meta)
     document.title = `${
       (to.meta as { frontmatter: { title: string } }).frontmatter
@@ -44,6 +59,10 @@ router.beforeEach((to, from, next) => {
     } | TailWind`
   else document.title = `${to.meta.title} | TailWind`
   next()
+})
+
+router.afterEach(() => {
+  NProgress.done()
 })
 
 export default router

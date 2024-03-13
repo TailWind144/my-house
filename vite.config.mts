@@ -9,6 +9,7 @@ import fs from 'fs-extra'
 import vue from '@vitejs/plugin-vue'
 import anchor from 'markdown-it-anchor'
 import TOC from 'markdown-it-table-of-contents'
+import LinkAttributes from 'markdown-it-link-attributes'
 import { bundledLanguages, getHighlighter } from 'shikiji'
 
 // https://vitejs.dev/config/
@@ -46,6 +47,13 @@ export default defineConfig({
             symbol: '#',
             renderAttrs: () => ({ 'aria-hidden': 'true' })
           })
+        })
+        md.use(LinkAttributes, {
+          matcher: (link: string) => /^https?:\/\//.test(link),
+          attrs: {
+            target: '_blank',
+            rel: 'noopener'
+          }
         })
         md.use(TOC, {
           includeLevel: [1, 2, 3, 4],

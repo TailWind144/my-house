@@ -1,6 +1,7 @@
 import './style.css'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+import 'nprogress/nprogress.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 import App from './App.vue'
