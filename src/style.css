@@ -1,12 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@font-face {
+/* @font-face {
   font-family: 'ali';
   src: url('./assets/AlibabaPuHuiTi-2-55-Regular.ttf');
   font-weight: normal;
   font-style: normal;
-}
+} */
 
 * {
   padding: 0;
