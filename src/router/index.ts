@@ -10,7 +10,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      meta: { transition: 'slide-right' }
+      meta: { transition: 'slide-right', title: '首页' }
     },
     {
       path: '/Blog',
@@ -22,18 +22,28 @@ const router = createRouter({
           path: 'tech',
           name: 'tech',
           component: BlogList,
-          meta: { transition: 'slide-right' }
+          meta: { transition: 'slide-right', title: '博客' }
         },
         {
           path: 'game',
           name: 'game',
           component: BlogList,
-          meta: { transition: 'slide-left' }
+          meta: { transition: 'slide-left', title: '博客' }
         }
       ]
     },
     ...routes
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  if ('frontmatter' in to.meta)
+    document.title = `${
+      (to.meta as { frontmatter: { title: string } }).frontmatter
+        .title
+    } | TailWind`
+  else document.title = `${to.meta.title} | TailWind`
+  next()
 })
 
 export default router
