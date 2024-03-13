@@ -18,7 +18,7 @@ type: tech
 - **类**：选择器中包含类选择器、属性选择器或者伪类则十位得一分。
 - **元素**：选择器中包含元素、伪元素选择器则个位得一分。
 
-> **备注：** 通用选择器（[`*`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Universal_selectors)）、组合符（`+`、`>`、`~`、' '）和调整优先级的选择器（[`:where()`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:where)）不会影响优先级。
+> **备注：** 通用选择器（[`*`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Universal_selectors)）、组合符（`+`、`>`、`~`、'空格'）和调整优先级的选择器（[`:where()`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:where)）不会影响优先级。
 
 否定（[`:not()`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:not)）和任意匹配（[`:is()`](https://developer.mozilla.org/zh-CN/docs/Web/CSS/:is)）伪类本身对优先级没有影响，但**它们的参数则会带来影响**。参数中，对优先级计算有贡献的参数的优先级的**最大值**将作为该伪类选择器的优先级。（例如，`button:not(#mainBtn, .cta)`的优先级为 1-0-1）
 
@@ -36,4 +36,4 @@ type: tech
 
 >  每一个选择器类编都有它自己的优先级等级，它们不会被具有较低优先级的选择器覆盖。例如，权重为*一百万*的**类**选择器不会覆盖权重为*一*的 **ID** 选择器。
 
-评估优先级的最佳方法是对不同的优先级等级单独进行评分，并从最高的等级开始，必要时再计算低优先级等级的权重。即，仅当某一列的优先级权重相同时，**你才需要评估下一列**；否则，<u>你可以直接忽略低等级的选择器，因为它们无法覆盖高优先级等级的选择器</u>。
+评估优先级的最佳方法是对不同的优先级等级**单独**进行评分，并从最高的等级开始，必要时再计算低优先级等级的权重。即，仅当某一列的优先级权重相同时，**你才需要评估下一列**；否则，<u>你可以直接忽略低等级的选择器，因为它们无法覆盖高优先级等级的选择器</u>。

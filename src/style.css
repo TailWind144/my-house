@@ -51,6 +51,32 @@ html.dark .prose {
   margin-bottom: 1em;
   line-height: 1.3333333;
 }
+.prose h3 {
+  color: inherit;
+  font-weight: 600;
+  font-size: 1.25em;
+  margin-top: 1.6em;
+  margin-bottom: 0.6em;
+  line-height: 1.6;
+  opacity: 0.7;
+}
+.prose code {
+  color: var(--fg-deep);
+  font-weight: 600;
+  font-size: 0.875em;
+}
+.prose ul > li p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.prose ol > li p {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.prose li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
 .prose > *:first-child {
   margin-top: 0;
 }
@@ -95,7 +121,6 @@ a.item {
 a.item:hover {
   opacity: 1;
 }
-
 .prose ol > li {
   position: relative;
   padding-left: 1.75em;
@@ -120,6 +145,23 @@ a.item:hover {
   height: 0.375em;
   top: 0.525em;
   left: 0.25em;
+}
+.prose blockquote {
+  font-weight: 500;
+  font-style: italic;
+  color: inherit;
+  border-left-width: 0.25rem;
+  border-color: rgba(125, 125, 125, 0.3);
+  quotes: '\201C' '\201D' '\2018' '\2019';
+  margin-top: 1.6em;
+  margin-bottom: 1.6em;
+  padding-left: 1em;
+}
+.prose blockquote p:first-of-type::before {
+  content: open-quote;
+}
+.prose blockquote p:last-of-type::after {
+  content: close-quote;
 }
 
 html.dark .shiki,
@@ -172,6 +214,7 @@ html.dark .shiki span {
   z-index: 1;
 }
 
+/* anchor */
 a.header-anchor {
   float: left;
   margin-top: 0.125em;
@@ -203,6 +246,7 @@ h6:focus .header-anchor {
   opacity: 0.5;
 }
 
+/* toc */
 .table-of-contents {
   position: fixed;
   top: 60px;
@@ -320,6 +364,7 @@ h6:focus .header-anchor {
   opacity: 1;
 }
 
+/* animation */
 @keyframes slide-enter {
   0% {
     opacity: 0;
