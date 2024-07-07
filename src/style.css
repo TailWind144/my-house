@@ -67,7 +67,7 @@ html.dark .prose {
   line-height: 1.3333333;
 }
 .prose h3 {
-  color: var(--fg-deep);
+  color: inherit;
   font-weight: 600;
   font-size: 1.25em;
   margin-top: 1.6em;
@@ -81,6 +81,10 @@ html.dark .prose {
 }
 .prose img {
   margin: 0 auto;
+}
+.prose strong {
+  color: var(--fg-deep);
+  font-weight: 600;
 }
 .prose h2 + * {
   margin-top: 0;
