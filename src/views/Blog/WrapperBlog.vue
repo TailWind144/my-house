@@ -7,7 +7,13 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue'
+import { renderMathJax } from '@/util/renderMathJax.js'
 const { frontmatter } = defineProps({ frontmatter: Object })
+
+onMounted(() => {
+  renderMathJax()
+})
 </script>
 
 <style scoped></style>
