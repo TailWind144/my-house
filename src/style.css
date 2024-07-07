@@ -25,6 +25,7 @@
 
 .prose {
   --fg: #555;
+  --fg-h3: #333;
   --fg-deep: #222;
   --fg-deeper: #000;
   color: var(--fg);
@@ -38,6 +39,7 @@ html.dark {
 }
 html.dark .prose {
   --fg: #bbb;
+  --fg-h3: #ccc;
   --fg-deep: #ddd;
   --fg-deeper: #fff;
 }
@@ -67,7 +69,7 @@ html.dark .prose {
   line-height: 1.3333333;
 }
 .prose h3 {
-  color: inherit;
+  color: var(--fg-h3);
   font-weight: 600;
   font-size: 1.25em;
   margin-top: 1.6em;
@@ -81,10 +83,6 @@ html.dark .prose {
 }
 .prose img {
   margin: 0 auto;
-}
-.prose strong {
-  color: var(--fg-deep);
-  font-weight: 600;
 }
 .prose h2 + * {
   margin-top: 0;
