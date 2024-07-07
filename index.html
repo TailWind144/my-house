@@ -12,48 +12,7 @@
       async
       src="https://cdn.bootcss.com/mathjax/3.0.5/es5/tex-mml-chtml.js"
     ></script>
-    <script>
-      MathJax = {
-        loader: {
-          load: [
-            'input/tex-base', // 必备基础库
-            'output/chtml',
-            '[tex]/ams' // 必备基础库，用来将tex转换成html
-          ]
-        },
-        tex: {
-          inlineMath: [
-            ['$', '$'],
-            ['\\(', '\\)']
-          ],
-
-          displayMath: [
-            ['$$', '$$'],
-            ['\\[', '\\]']
-          ],
-          packages: ['base', 'ams']
-        },
-        options: {
-          skipHtmlTags: [
-            'script',
-            'noscript',
-            'style',
-            'textarea',
-            'pre',
-            'code'
-          ],
-          renderActions: {
-            addMenu: [0, '', '']
-          }
-        },
-        processHtmlClass: 'prose',
-        startup: {
-          ready() {
-            MathJax.startup.defaultReady()
-          }
-        }
-      }
-    </script>
+    <script src="./src/util/initMathJax.js"></script>
   </head>
   <body>
     <div id="app"></div>
