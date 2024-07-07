@@ -12,14 +12,13 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  /* font-family: ali; */
   scrollbar-color: var(--c-scrollbar) var(--c-bg);
   letter-spacing: 0.5px;
 }
 
 :root {
   --c-bg: #fff;
-  --c-scrollbar: #eee;
+  --c-scrollbar: #ccc;
   --c-scrollbar-hover: #bbb;
 }
 
@@ -33,7 +32,7 @@
   line-height: 1.75;
 }
 html.dark {
-  --c-bg: #050505;
+  --c-bg: #262626;
   --c-scrollbar: #111;
   --c-scrollbar-hover: #222;
 }
@@ -70,7 +69,6 @@ html.dark .prose {
 }
 .prose h3 {
   color: var(--fg-h3);
-  font-weight: 600;
   font-size: 1.25em;
   margin-top: 1.6em;
   margin-bottom: 0.6em;
@@ -351,7 +349,7 @@ h6:focus .header-anchor {
 
 .dark .table-of-contents-anchor {
   --un-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--un-bg-opacity));
+  background-color: rgb(38 38 38 / var(--un-bg-opacity));
 }
 
 .table-of-contents > ul {

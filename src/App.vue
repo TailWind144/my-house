@@ -1,6 +1,6 @@
 <template>
   <div
-    class="min-h-screen bg-white selection:bg-[#8884] dark:bg-[#050505]"
+    class="min-h-screen bg-white selection:bg-[#8884] dark:bg-[#262626]"
   >
     <div class="p-8 text-[#374151]/60 dark:text-[#e5e7eb]/60">
       <TopNavView />
