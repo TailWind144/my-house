@@ -12,12 +12,12 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  scrollbar-color: var(--c-scrollbar) var(--c-bg);
   letter-spacing: 0.5px;
 }
 
 :root {
   --c-bg: #fff;
+  --c-border: #dcdfe6;
   --c-scrollbar: #ccc;
   --c-scrollbar-hover: #bbb;
 }
@@ -32,9 +32,10 @@
   line-height: 1.75;
 }
 html.dark {
-  --c-bg: #262626;
-  --c-scrollbar: #111;
-  --c-scrollbar-hover: #222;
+  --c-bg: #141414;
+  --c-border: #4c4d4f;
+  --c-scrollbar: #444;
+  --c-scrollbar-hover: #555;
 }
 html.dark .prose {
   --fg: #bbb;
@@ -45,7 +46,7 @@ html.dark .prose {
 
 #nprogress .bar {
   background-color: #888 !important;
-  height: 3px !important;
+  height: 2px !important;
 }
 #nprogress .peg {
   box-shadow: 0 2px 12px 0 #888 !important;
@@ -75,13 +76,6 @@ html.dark .prose {
   line-height: 1.6;
   opacity: 0.7;
 }
-.prose p {
-  margin-top: 1.25em;
-  margin-bottom: 1.25em;
-}
-.prose img {
-  margin: 0 auto;
-}
 .prose h2 + * {
   margin-top: 0;
 }
@@ -90,6 +84,20 @@ html.dark .prose {
 }
 .prose h4 + * {
   margin-top: 0;
+}
+.prose p {
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+.prose img {
+  margin: 0 auto;
+}
+.prose hr {
+  width: 50px;
+  height: 0;
+  margin: 2em auto;
+  border-color: #7d7d7d4d;
+  border-top-width: 1px;
 }
 .prose code {
   color: var(--fg-deep);
@@ -217,7 +225,7 @@ html.dark .shiki span {
 }
 
 /* scroll */
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar:horizontal {
@@ -234,7 +242,7 @@ html.dark .shiki span {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--c-scrollbar-hover);
-} */
+}
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
@@ -289,7 +297,7 @@ h6:focus .header-anchor {
 /* toc */
 .table-of-contents {
   position: fixed;
-  top: 60px;
+  top: 90px;
   bottom: 0;
   font-size: 0.8em;
   left: 30px;
@@ -349,7 +357,7 @@ h6:focus .header-anchor {
 
 .dark .table-of-contents-anchor {
   --un-bg-opacity: 1;
-  background-color: rgb(38 38 38 / var(--un-bg-opacity));
+  background-color: rgb(20 20 20 / var(--un-bg-opacity));
 }
 
 .table-of-contents > ul {

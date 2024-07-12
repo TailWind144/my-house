@@ -39,6 +39,13 @@ const router = createRouter({
         }
       ]
     },
+    {
+      path: '/FriendLink',
+      name: 'FriendLink',
+      component: () =>
+        import('../views/FriendLink/FriendLinkView.vue'),
+      meta: { transition: 'slide-right', title: '友链' }
+    },
     ...routes
   ],
   scrollBehavior(to, from, savedPosition) {

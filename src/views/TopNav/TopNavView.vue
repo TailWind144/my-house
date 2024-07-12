@@ -1,13 +1,23 @@
 <template>
-  <div class="flex justify-end">
-    <div
-      class="mx-2 duration-300 hover:text-[#374151]/100 dark:hover:text-[#e5e7eb]/100"
-      v-for="(item, index) in nav"
-      :key="index"
-    >
-      <router-link :to="item.toPath">
-        {{ item.name }}
-      </router-link>
+  <div
+    class="flex items-center justify-end px-8 py-4 backdrop-blur-sm backdrop-saturate-50"
+  >
+    <div class="w-6">
+      <img
+        style="filter: drop-shadow(0 0 4px #fff)"
+        src="/favicon.ico"
+      />
+    </div>
+    <div class="mx-auto flex items-center justify-center">
+      <div
+        class="mx-4 duration-300 hover:text-[#374151]/100 dark:hover:text-[#e5e7eb]/100"
+        v-for="(item, index) in navObj"
+        :key="index"
+      >
+        <router-link :to="item.toPath">
+          {{ item.name }}
+        </router-link>
+      </div>
     </div>
     <div
       class="mx-2 flex w-4 cursor-pointer duration-300 hover:text-[#374151]/100 dark:hover:text-[#e5e7eb]/100"
@@ -35,16 +45,7 @@
 import { ref } from 'vue'
 import { useDark, useToggle, useWindowScroll } from '@vueuse/core'
 import { Sunny, Moon, Top } from '@element-plus/icons-vue'
-const nav = ref([
-  {
-    name: '首页',
-    toPath: '/'
-  },
-  {
-    name: '博客',
-    toPath: '/Blog/tech'
-  }
-])
+import navObj from '@/router/navObj'
 
 const isDark = useDark({
   storageKey: 'useDarkKEY',
