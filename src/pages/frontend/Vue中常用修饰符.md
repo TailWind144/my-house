@@ -1,7 +1,7 @@
 ---
 title: Vue常用的修饰符
 date: 2023/10/4
-type: tech
+type: frontend
 ---
 
 [[toc]]

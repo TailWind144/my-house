@@ -1,7 +1,7 @@
 ---
 title: Node八股
 date: 2023/10/5
-type: tech
+type: frontend
 ---
 
 [[toc]]

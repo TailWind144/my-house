@@ -1,7 +1,7 @@
 ---
 title: 输入 URL 之后的过程
 date: 2023/10/10
-type: tech
+type: frontend
 ---
 
 1. 浏览器先解析输入的内容，判断是否为 URL 地址。

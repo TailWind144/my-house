@@ -1,7 +1,7 @@
 ---
 title: PINN反演NS方程
 date: 2024/7/23
-type: tech
+type: deep_learning
 ---
 
 [[toc]]
@@ -101,7 +101,7 @@ $$
 g:=u_t+\lambda_1(uu_x+vu_y)=-p_x+\lambda_2(u_{xx}+u_{yy}).
 $$
 
-损失主要包括偏微分结构损失（PDE loss）和真实数据条件损失(Data loss)：
+损失主要包括偏微分结构损失（PDE loss）和真实数据条件损失（Data loss）：
 $$
 PDE\ loss:=\frac{1}{N}\sum^N_{i=1}(\mid u(t^i,x^i,y^i)-u^i\mid^2+\mid v(t^i,x^i,y^i)-v^i\mid^2),
 $$

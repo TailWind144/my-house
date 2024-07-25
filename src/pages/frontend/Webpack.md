@@ -1,7 +1,7 @@
 ---
 title: Webpack八股
 date: 2023/9/16
-type: tech
+type: frontend
 ---
 
 [[toc]]

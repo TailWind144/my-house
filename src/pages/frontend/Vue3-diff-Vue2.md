@@ -1,7 +1,7 @@
 ---
 title: Vue3中Diff算法的改进
 date: 2023/8/29
-type: tech
+type: frontend
 ---
 
 [[toc]]

@@ -1,7 +1,7 @@
 ---
 title: Web应用中的性能优化
 date: 2023/9/26
-type: tech
+type: frontend
 ---
 
 [[toc]]

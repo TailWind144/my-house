@@ -19,7 +19,9 @@ export default defineConfig({
     vue({
       include: [/\.vue$/, /\.md$/]
     }),
-    Components({ dirs: ['src/pages/game', 'src/pages/tech'] }),
+    Components({
+      dirs: ['src/pages/deep_learning', 'src/pages/frontend']
+    }),
     Markdown({
       wrapperComponent: 'WrapperBlog',
       wrapperClasses: 'prose slide-enter-content',
@@ -64,8 +66,8 @@ export default defineConfig({
     }),
     Pages({
       dirs: [
-        { dir: 'src/pages/tech', baseRoute: '/page' },
-        { dir: 'src/pages/game', baseRoute: '/page' }
+        { dir: 'src/pages/frontend', baseRoute: '/page' },
+        { dir: 'src/pages/deep_learning', baseRoute: '/page' }
       ],
       extensions: ['vue', 'md'],
       extendRoute(route) {

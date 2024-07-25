@@ -1,7 +1,7 @@
 ---
 title: Vite与传统构建工具
 date: 2023/8/29
-type: tech
+type: frontend
 ---
 
 [[toc]]

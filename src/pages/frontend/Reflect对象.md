@@ -1,7 +1,7 @@
 ---
 title: Reflect对象
 date: 2023/11/14
-type: tech
+type: frontend
 ---
 
 [[toc]]

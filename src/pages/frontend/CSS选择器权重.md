@@ -1,7 +1,7 @@
 ---
 title: CSS选择器权重
 date: 2023/10/1
-type: tech
+type: frontend
 ---
 
 [[toc]]

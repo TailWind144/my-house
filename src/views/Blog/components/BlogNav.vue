@@ -15,12 +15,12 @@
 import { useRoute } from 'vue-router'
 const nav = [
   {
-    path: 'tech',
-    text: '技术'
+    path: 'frontend',
+    text: '前端'
   },
   {
-    path: 'game',
-    text: '游戏'
+    path: 'deep_learning',
+    text: '深度学习'
   }
 ]
 const route = useRoute()

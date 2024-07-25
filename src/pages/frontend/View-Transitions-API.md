@@ -1,7 +1,7 @@
 ---
 title: View Transitions
 date: 2023/8/19
-type: tech
+type: frontend
 ---
 
 [[toc]]

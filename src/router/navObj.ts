@@ -5,7 +5,7 @@ const navObj = [
   },
   {
     name: '博客',
-    toPath: '/Blog/tech'
+    toPath: '/Blog/frontend'
   },
   {
     name: '友链',

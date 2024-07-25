@@ -17,23 +17,22 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      meta: { transition: 'slide-right', title: '首页' }
+      meta: { title: '首页' }
     },
     {
       path: '/Blog',
       name: 'Blog',
       component: () => import('../views/Blog/BlogView.vue'),
-      meta: { transition: 'slide-left' },
       children: [
         {
-          path: 'tech',
-          name: 'tech',
+          path: 'frontend',
+          name: 'frontend',
           component: BlogList,
           meta: { transition: 'slide-right', title: '博客' }
         },
         {
-          path: 'game',
-          name: 'game',
+          path: 'deep_learning',
+          name: 'deep_learning',
           component: BlogList,
           meta: { transition: 'slide-left', title: '博客' }
         }
@@ -44,7 +43,7 @@ const router = createRouter({
       name: 'FriendLink',
       component: () =>
         import('../views/FriendLink/FriendLinkView.vue'),
-      meta: { transition: 'slide-right', title: '友链' }
+      meta: { title: '友链' }
     },
     ...routes
   ],
