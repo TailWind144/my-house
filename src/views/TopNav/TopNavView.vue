@@ -1,5 +1,7 @@
 <template>
-  <div class="flex items-center justify-end bg-[--c-bg] px-8 py-4">
+  <div
+    class="flex items-center justify-end px-8 py-4 backdrop-blur backdrop-saturate-50"
+  >
     <div class="w-6">
       <img
         style="filter: drop-shadow(0 0 4px #fff)"
