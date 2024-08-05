@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div class="mb-8 px-2">
+    <div class="mb-4 px-2">
       <svg
         viewBox="0 0 717 233"
         fill="none"
@@ -13,7 +13,7 @@
         />
       </svg>
     </div>
-    <div class="px-2 text-center">
+    <div class="h-20 px-2 text-center">
       <vue-typed-js :strings="['First text', 'Second Text']">
         <span class="typing align-middle text-xl italic"></span>
       </vue-typed-js>
@@ -76,7 +76,7 @@ svg {
     stroke-dasharray: 0 350px;
   }
   30% {
-    fill: var(--reverse-fg-deeper);
+    fill: var(--c-bg);
   }
   45% {
     stroke-dasharray: 350px 0;

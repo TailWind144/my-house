@@ -27,7 +27,6 @@
   --fg-h3: #333;
   --fg-deep: #222;
   --fg-deeper: #000;
-  --reverse-fg-deeper: #fff;
   --stroke: #303030;
   color: var(--fg);
   max-width: 75ch;
@@ -44,7 +43,6 @@ html.dark .prose {
   --fg-h3: #ccc;
   --fg-deep: #ddd;
   --fg-deeper: #fff;
-  --reverse-fg-deeper: #141414;
   --stroke: #d0d0d0;
 }
 
