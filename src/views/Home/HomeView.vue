@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <div class="mb-8">
+    <div class="mb-8 px-2">
       <svg
         viewBox="0 0 717 233"
         fill="none"
@@ -13,7 +13,7 @@
         />
       </svg>
     </div>
-    <div class="text-center">
+    <div class="px-2 text-center">
       <vue-typed-js :strings="['First text', 'Second Text']">
         <span class="typing align-middle text-xl italic"></span>
       </vue-typed-js>
@@ -51,7 +51,7 @@ onMounted(() => {
 svg {
   width: 400px;
 }
-@media (min-width: 1024px) {
+@media (min-width: 720px) {
   svg {
     width: 717px;
     height: 233px;
@@ -76,13 +76,13 @@ svg {
     stroke-dasharray: 0 350px;
   }
   30% {
-    fill: white;
+    fill: var(--reverse-fg-deeper);
   }
   45% {
     stroke-dasharray: 350px 0;
   }
   to {
-    fill: black;
+    fill: var(--fg-deeper);
   }
 }
 path {
@@ -90,6 +90,6 @@ path {
   stroke-dasharray: 350px 0;
   animation: grow 8s ease forwards;
   transform-origin: center;
-  stroke: #303030;
+  stroke: var(--stroke);
 }
 </style>
