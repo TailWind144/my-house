@@ -2,8 +2,6 @@
   <div class="home">
     <div class="mb-8">
       <svg
-        width="717"
-        height="233"
         viewBox="0 0 717 233"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +13,7 @@
         />
       </svg>
     </div>
-    <div>
+    <div class="text-center">
       <vue-typed-js :strings="['First text', 'Second Text']">
         <span class="typing align-middle text-xl italic"></span>
       </vue-typed-js>
@@ -32,7 +30,7 @@ onMounted(() => {
     strings: [
       'Hi！欢迎来到我的博客。',
       'Hi! Welcome to my blog.',
-      '我是一名Web前端开发程序员，目前正在攻读硕士学历。',
+      '我是一名Web前端开发程序员，目前正在攻读硕士学位。',
       "I am a Web front-end developer while currently studying for a master's degree.",
       '主要会分享关于Web前端和深度学习的一些知识点。',
       'I will share some knowledge about web front-end and deep learning.',
@@ -50,6 +48,16 @@ onMounted(() => {
 </script>
 
 <style scoped>
+svg {
+  width: 400px;
+}
+@media (min-width: 1024px) {
+  svg {
+    width: 717px;
+    height: 233px;
+  }
+}
+
 .home {
   position: absolute;
   left: 0;
