@@ -1,6 +1,6 @@
 ---
 title: View Transitions
-date: 2023/8/19
+date: 2024/8/12
 type: frontend
 ---
 
@@ -26,7 +26,7 @@ function updateView(event) {
 }
 ```
 
-在这个基本示例中，我们将DOM元素的操作封装在displayNewImage这个函数中，去进行图片的一个切换。然后去调用View Transition API去执行DOM的操作。那么当这个事件被调用时，在默认情况下，浏览器会以淡入淡出的效果来进行视图的转换。
+在这个基本示例中，我们将DOM元素的操作封装在 `displayNewImage` 这个函数中，去进行图片的一个切换。然后去调用 View Transition API 去执行DOM的操作。那么当这个事件被调用时，在默认情况下，浏览器会以淡入淡出的效果来进行视图的转换。
 
 ## 视图转换的工作过程
 
@@ -76,8 +76,80 @@ function updateView(event) {
 
 首先，我们可以发现在 Container transform 过渡中，最直观的特点就是过渡前后页面存在相同的元素，而且这个元素是过渡的主体部分。这里说的相同元素并不指的是DOM元素，我们要实现这种效果一般需要进行路由的跳转，所以DOM元素并不相同，这里说的相同指的是元素意义上或者说展示的内容相同。
 
-也就是说其实这里的实际DOM元素并不是相同的。对于不相同的DOM元素但意义上相同，我们可以通过在执行路由跳转前（DOM操作前）去设置该DOM元素的 view-transition-name 与跳转后对应DOM元素的 view-transition-name 相同即可实现上述动画效果。
+也就是说其实这里的实际DOM元素并不是相同的。对于不相同的DOM元素但意义上相同，我们可以通过在执行路由跳转前（DOM操作前）去设置该DOM元素的 `view-transition-name` 与跳转后对应DOM元素的 `view-transition-name` 相同即可实现上述动画效果。
 
-例如：
+现在我们有一个图片列表全局视图 `HomeView.vue` ，当用户点击图片时会跳转到图片细节视图 `ImgDetailView.vue`。那么我们在这个点击事件中更改点击图片的 `view-transition-name` 与图片细节视图中图片的 `view-transition-name` 相同：
 
-（未完待续……）
+```vue
+// HomeView.vue
+// ……
+<script setup>
+// 点击事件函数
+const checkImgDetail = (e, name) => {
+  if (lastImg.value) lastImg.value.style.viewTransitionName = "";
+  e.target.style.viewTransitionName = "full-embed";
+  const routeChange = () => {
+    router.push({
+      path: "/imgDetail",
+      query: { name },
+    });
+  };
+  document.startViewTransition(() => routeChange());
+};
+</script>
+
+// ImgDetailView.vue
+<template>
+  <div class="wrapper">
+    <div class="top-img">
+      <img :src="imgSrc" />
+    </div>
+  </div>
+</template>
+
+<script setup>
+// ……
+</script>
+
+<style scoped>
+.wrapper {
+  padding: 0 20vw;
+  display: flex;
+  justify-content: center;
+}
+.top-img img {
+  width: 100%;
+  view-transition-name: full-embed;
+}
+</style>
+```
+
+但此时从 `ImgDetailView.vue` 切换回 `HomeView.vue` 时并没有缩放回去的动画，因为我们并没有实现这一部分的代码。与之前一样，只需要将跳转回 `HomeView.vue` 视图时将对应图片的 `view-transition-name` 与列表视图中图片的 `view-transition-name` 相同即可。
+
+但如何确定当前细节视图下的图片在列表视图中对应的是哪一张呢？我们发现在刚刚的代码中 `HomeView.vue` 在进行路由跳转时将一个 name 作为参数传递了过去，这个 name 你可以认为是图片链接中的某一个特征。那么在跳转回 `HomeView.vue` 时在 `OnMounted` 生命周期中便可根据该特征去查找该图片的DOM元素。
+
+```vue
+// HomeView.vue
+// ……
+<script setup>
+const backTransition = () => {
+  if (route.query.name) {
+    const { name } = route.query;
+    const imgs = Array.from(document.getElementsByTagName("img"));
+    lastImg.value = imgs.find((item) => item.src.includes(name));
+    lastImg.value.style.viewTransitionName = "full-embed";
+  }
+};
+onMounted(() => {
+  backTransition();
+});
+</script>
+```
+
+现在我们就成功实现了一个流畅的 Container transform 过渡动画：
+
+![20240812150135](./20240812150135.gif)
+
+## 总结
+
+View Transitions 是一个很强大的API，利用 View Transitions 可以很好地实现美观又流畅的动画。但 View Transitions 还在实验阶段，同时在现在流行的 MVVM 框架下开发时，面对一些复杂场景时，想通过 View Transitions 来实现会非常麻烦。现在许多框架（如 Nuxt.js ）也在进一步地去集成该API以便更好地去使用 View Transitions。
