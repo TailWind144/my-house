@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center justify-end px-8 py-4 backdrop-blur backdrop-saturate-50"
+    class="flex items-center px-8 py-4 backdrop-blur backdrop-saturate-50"
   >
     <div class="w-6">
       <img

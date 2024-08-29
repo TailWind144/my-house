@@ -21,7 +21,7 @@ $$
 
 式中，$u(t,x,y)$是$x$轴的速度场，$v(t,x,y)$是$y$轴的速度场，$p(t,x,y)$是压力场，三者都是非定常的。参数$\lambda=(\lambda_1,\lambda_2)$是需要反演的未知参数，真实值分别为 $1$ 和 $0.01$。
 
-网络的输出应该为三维$(u,v,p)$，但由于 Navier-Stokes 的解满足下面散度为0的方程，即：
+网络的输出应该为三维$(u,v,p)$，但由于 Navier-Stokes 的解满足下面散度为 0 的方程，即：
 $$
 u_x+v_y=0.
 $$
@@ -50,9 +50,11 @@ class PINN(nn.Module):
         return self.layers(x)
 ```
 
-## 读取训练集数据
+## 读取解析解
 
-训练集数据来源于 PINN 原作者 Maziar Raissi 的 GitHub：[maziarraissi/PINNs: Physics Informed Deep Learning](https://github.com/maziarraissi/PINNs)。
+对于逆问题，即方程中的某些参数未知。若只知道 PDE 方程及边界条件，PDE 参数未知，该逆问题为非定问题，所以必须要知道其他信息，如部分观测点的解。
+
+这里的解析解数据来源于 PINN 原作者 Maziar Raissi 的 GitHub：[maziarraissi/PINNs: Physics Informed Deep Learning](https://github.com/maziarraissi/PINNs)。
 
 由于本实现没有去做验证，所以这里没有读取 p 的标签数据。
 
@@ -127,9 +129,7 @@ def d(f, x):
                                retain_graph=True,
                                create_graph=True)[0]
 
-# 对于逆问题，即方程中的某些参数未知。
-# 若只知道PDE方程及边界条件，PDE参数未知，该逆问题为非定问题，所以必须要知道其他信息，如部分观测点的值。
-# 在这种情况下，PINN做法可将方程中的参数作为未知变量，加到训练器中进行优化，损失函数包括Data loss。
+
 def loss_func():
     global index  # 计数
     optimizer_adam.zero_grad()
@@ -186,7 +186,7 @@ def loss_func():
 
 ## 训练
 
-网络一共包含 9 个隐藏层，每层 20 个隐藏单元。优化算法采用 Adam，通过 Xavier 进行模型的权重初始化。
+网络一共包含 9 个隐藏层，每层 20 个隐藏单元。优化算法采用 Adam，通过 Xavier 进行模型的权重初始化。并将方程中的未知参数添加到优化器中进行训练。
 
 模型非常难收敛，一共进行了 20 万次 epoch 的训练。
 

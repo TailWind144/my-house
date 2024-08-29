@@ -6,11 +6,11 @@ type: frontend
 
 [[toc]]
 
-这个API很有意思，利用这个API可以很好很方便地实现一些动画效果。
+这个 API 很有意思，利用这个 API 可以很好很方便地实现一些动画效果。
 
-先说明下，这个API还在<u>实验阶段</u>，也就是说存在兼容性问题，在用于生产环境时请注意兼容性处理。
+先说明下，这个 API 还在<u>实验阶段</u>，也就是说存在兼容性问题，在用于生产环境时请注意兼容性处理。
 
-看下[MDN](https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API)里给的基本示例：
+看下 [MDN](https://developer.mozilla.org/en-US/docs/Web/API/View_Transitions_API) 里给的基本示例：
 
 ```javascript
 function updateView(event) {
@@ -26,11 +26,11 @@ function updateView(event) {
 }
 ```
 
-在这个基本示例中，我们将DOM元素的操作封装在 `displayNewImage` 这个函数中，去进行图片的一个切换。然后去调用 View Transition API 去执行DOM的操作。那么当这个事件被调用时，在默认情况下，浏览器会以淡入淡出的效果来进行视图的转换。
+在这个基本示例中，我们将 DOM 元素的操作封装在 `displayNewImage` 这个函数中，去进行图片的一个切换。然后去调用 View Transition API 去执行 DOM 的操作。那么当这个事件被调用时，在默认情况下，浏览器会以淡入淡出的效果来进行视图的转换。
 
 ## 视图转换的工作过程
 
-这个API的工作原理本质上就是通过截取旧页面的屏幕截图，然后执行传入函数的DOM操作。当执行完毕后，API会捕获页面的新状态，同时会创建如下结构的伪元素树。
+这个 API 的工作原理本质上就是通过截取旧页面的屏幕截图，然后执行传入函数的 DOM 操作。当执行完毕后，API 会捕获页面的新状态，同时会创建如下结构的伪元素树。
 
 ```
 ::view-transition
@@ -44,7 +44,7 @@ function updateView(event) {
 
 ## 不同元素不同过渡
 
-在默认情况下，所有的DOM元素都会参与到淡入淡出的动画效果中。如果希望页面中某个元素不参与到该动画效果中，或者说希望某个元素去使用不同的动画效果来进行视图转换，我们可以通过设置CSS属性[`view-transition-name`](https://developer.mozilla.org/en-US/docs/Web/CSS/view-transition-name)来实现。例如：
+在默认情况下，所有的 DOM 元素都会参与到淡入淡出的动画效果中。如果希望页面中某个元素不参与到该动画效果中，或者说希望某个元素去使用不同的动画效果来进行视图转换，我们可以通过设置 CSS 属性 [`view-transition-name`](https://developer.mozilla.org/en-US/docs/Web/CSS/view-transition-name) 来实现。例如：
 
 ```css
 .figcaption {
@@ -66,19 +66,19 @@ function updateView(event) {
       └─ ::view-transition-new(figure-caption)
 ```
 
-可以发现生成了另外一组伪元素组，我们可以单独为figure-caption的伪元素组设置视图转换的样式，从而进行不同的过渡效果。
+可以发现生成了另外一组伪元素组，我们可以单独为 figure-caption 的伪元素组设置视图转换的样式，从而进行不同的过渡效果。
 
-动画效果的样式直接通过CSS为相应的伪元素设置即可。
+动画效果的样式直接通过 CSS 为相应的伪元素设置即可。
 
 ## Container transform
 
-现在我们要利用这个API来实现[Material Design‘s container transform transition](https://m2.material.io/design/motion/the-motion-system.html#container-transform)的动画效果。
+现在我们要利用这个 API 来实现[Material Design‘s container transform transition](https://m2.material.io/design/motion/the-motion-system.html#container-transform)的动画效果。
 
-首先，我们可以发现在 Container transform 过渡中，最直观的特点就是过渡前后页面存在相同的元素，而且这个元素是过渡的主体部分。这里说的相同元素并不指的是DOM元素，我们要实现这种效果一般需要进行路由的跳转，所以DOM元素并不相同，这里说的相同指的是元素意义上或者说展示的内容相同。
+首先，我们可以发现在 Container transform 过渡中，最直观的特点就是过渡前后页面存在相同的元素，而且这个元素是过渡的主体部分。这里说的相同元素并不指的是 DOM 元素，我们要实现这种效果一般需要进行路由的跳转，所以 DOM 元素并不相同，这里说的相同指的是元素意义上或者说展示的内容相同。
 
-也就是说其实这里的实际DOM元素并不是相同的。对于不相同的DOM元素但意义上相同，我们可以通过在执行路由跳转前（DOM操作前）去设置该DOM元素的 `view-transition-name` 与跳转后对应DOM元素的 `view-transition-name` 相同即可实现上述动画效果。
+也就是说其实这里的实际 DOM 元素并不是相同的。对于不相同的 DOM 元素但意义上相同，我们可以通过在执行路由跳转前（ DOM 操作前）去设置该 DOM 元素的 `view-transition-name` 与跳转后对应 DOM 元素的 `view-transition-name` 相同即可实现上述动画效果。
 
-现在我们有一个图片列表全局视图 `HomeView.vue` ，当用户点击图片时会跳转到图片细节视图 `ImgDetailView.vue`。那么我们在这个点击事件中更改点击图片的 `view-transition-name` 与图片细节视图中图片的 `view-transition-name` 相同：
+现在我们有一个图片列表全局视图 `HomeView.vue`，当用户点击图片时会跳转到图片细节视图 `ImgDetailView.vue`。那么我们在这个点击事件中更改点击图片的 `view-transition-name` 与图片细节视图中图片的 `view-transition-name` 相同：
 
 ```vue
 // HomeView.vue
@@ -152,4 +152,4 @@ onMounted(() => {
 
 ## 总结
 
-View Transitions 是一个很强大的API，利用 View Transitions 可以很好地实现美观又流畅的动画。但 View Transitions 还在实验阶段，同时在现在流行的 MVVM 框架下开发时，面对一些复杂场景时，想通过 View Transitions 来实现会非常麻烦。现在许多框架（如 Nuxt.js ）也在进一步地去集成该API以便更好地去使用 View Transitions。
+View Transitions 是一个很强大的API，利用 View Transitions 可以很好地实现美观又流畅的动画。但 View Transitions 还在实验阶段，同时在现在流行的 MVVM 框架下开发时，面对一些复杂场景想通过 View Transitions 来实现会非常麻烦。现在许多框架（如 Nuxt.js ）也在进一步地去集成该 API 以便更好地去使用 View Transitions。
