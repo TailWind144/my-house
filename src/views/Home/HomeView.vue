@@ -14,7 +14,9 @@
       </svg>
     </div>
     <div class="h-20 px-2 text-center">
-      <span class="typing align-middle text-xl italic"></span>
+      <vue-typed-js>
+        <span class="typing align-middle text-xl italic"></span>
+      </vue-typed-js>
     </div>
   </div>
 </template>
@@ -24,7 +26,7 @@ import { onMounted } from 'vue'
 import Typed from 'typed.js'
 
 onMounted(() => {
-  const typed = new Typed('.typing', {
+  new Typed('.typing', {
     strings: [
       'Hi！欢迎来到我的博客。',
       'Hi! Welcome to my blog.',
