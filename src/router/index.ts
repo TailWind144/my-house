@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import routes from '~pages'
 import HomeView from '../views/Home/HomeView.vue'
 import NProgress from 'nprogress'
+import { useBlogListStore } from '@/stores/blogListStore'
 const BlogList = () => import('../views/Blog/components/BlogList.vue')
 
 NProgress.configure({
@@ -57,6 +58,11 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  const { isInit, getBlogList, setInitTrue } = useBlogListStore()
+  if (!isInit) {
+    getBlogList()
+    setInitTrue()
+  }
   if (to.name !== from.name) NProgress.start()
   if ('frontmatter' in to.meta)
     document.title = `${

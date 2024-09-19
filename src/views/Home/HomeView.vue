@@ -14,9 +14,7 @@
       </svg>
     </div>
     <div class="h-20 px-2 text-center">
-      <vue-typed-js :strings="['First text', 'Second Text']">
-        <span class="typing align-middle text-xl italic"></span>
-      </vue-typed-js>
+      <span class="typing align-middle text-xl italic"></span>
     </div>
   </div>
 </template>

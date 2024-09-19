@@ -1,10 +1,17 @@
-export interface Post {
-  title: String
-  date: String
-  type: String
+export type Post = {
+  title: string
+  date: string
+  type: string
+  path?: string
 }
 
-export interface yearListObj {
-  year: String
+export type YearListObj = {
+  year: string
   list: Array<any>
+}
+
+export type AllBlogs<T> = {
+  [key: string]: T
+  frontend: T
+  deep_learning: T
 }

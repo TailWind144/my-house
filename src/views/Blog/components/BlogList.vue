@@ -25,62 +25,19 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  beforeRouteEnter(_to, _from, next) {
-    next((vm: any) => {
-      vm.getBlogList()
-    })
-  }
-}
-</script>
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import type { Post, yearListObj } from '@/type'
-const blogList = ref<Array<yearListObj>>([])
-const router = useRouter()
+import { useRoute } from 'vue-router'
+import { useBlogListStore } from '@/stores/blogListStore'
+const { allBlogs } = useBlogListStore()
+const blogList = ref()
 const route = useRoute()
 
 const getBlogList = () => {
-  const yearIndexMap = new Map()
   const listType = route.name
-  const routes = router.getRoutes()
-
-  for (const item of routes) {
-    const { frontmatter }: { frontmatter: Post } = item.meta
-    if (frontmatter && frontmatter.type === listType) {
-      const year = frontmatter.date.substring(0, 4)
-      const date = frontmatter.date.substring(5)
-      let index = yearIndexMap.get(year)
-
-      if (index === undefined) {
-        blogList.value.push({ year, list: [] })
-        index = blogList.value.length - 1
-        yearIndexMap.set(year, index)
-      }
-
-      blogList.value[index].list.push({
-        path: item.path,
-        ...frontmatter,
-        date
-      })
-    }
-  }
-
-  if (Object.keys(blogList.value).length === 0)
-    blogList.value.push({ year: '暂无', list: [] })
-
-  blogList.value.sort((a, b) => Number(b.year) - Number(a.year))
-
-  for (const yearListObj of blogList.value) {
-    yearListObj.list.sort(
-      (a, b) => new Date(b.date) - new Date(a.date)
-    )
-  }
+  blogList.value = allBlogs[listType as string]
 }
-
-defineExpose({ getBlogList })
+getBlogList()
 </script>
 
 <style scoped>

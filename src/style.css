@@ -18,6 +18,7 @@
 :root {
   --c-bg: #fff;
   --c-border: #dcdfe6;
+  --c-border-hover: #4c4d4f;
   --c-scrollbar: #ccc;
   --c-scrollbar-hover: #bbb;
 }
@@ -35,6 +36,7 @@
 html.dark {
   --c-bg: #141414;
   --c-border: #4c4d4f;
+  --c-border-hover: #dcdfe6;
   --c-scrollbar: #444;
   --c-scrollbar-hover: #555;
 }
@@ -166,6 +168,10 @@ html.dark .prose {
 }
 .prose pre code span {
   letter-spacing: normal;
+}
+.prose summary {
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 
 a.item {
