@@ -1,5 +1,7 @@
 # my_house
 
+项目的部分样式来自[antfu/antfu.me: My personal website (github.com)](https://github.com/antfu/antfu.me)
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
