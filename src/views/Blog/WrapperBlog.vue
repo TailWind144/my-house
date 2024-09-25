@@ -1,7 +1,7 @@
 <template>
   <article ref="content">
-    <h1>{{ frontmatter.title }}</h1>
-    <p class="!-mt-6 !opacity-50">{{ frontmatter.date }}</p>
+    <h1>{{ frontmatter!.title }}</h1>
+    <p class="!-mt-6 !opacity-50">{{ frontmatter!.date }}</p>
     <slot></slot>
   </article>
   <FootNav />
