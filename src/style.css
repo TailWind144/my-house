@@ -171,6 +171,9 @@ html.dark .prose {
   padding: 0.8571429em 1.1428571em;
 }
 .prose pre code {
+  display: block;
+  width: fit-content;
+  min-width: 100%;
   background-color: transparent;
   border-width: 0;
   border-radius: 0;
@@ -268,13 +271,13 @@ code .highlighted {
   background-color: var(--c-code-highlight);
   margin: 0 -17px;
   padding: 0 17px;
-  min-width: calc(100% + 34px);
+  width: calc(100% + 34px);
   display: inline-block;
 }
 code .diff {
   margin: 0 -17px;
   padding: 0 17px;
-  min-width: calc(100% + 34px);
+  width: calc(100% + 34px);
   display: inline-block;
 }
 
@@ -396,14 +399,13 @@ h6:focus .header-anchor {
   color: rgb(136 136 136 / var(--un-text-opacity));
   --un-shadow: var(--un-shadow-inset) 0 1px 3px 0
       var(--un-shadow-color, rgb(0 0 0 / 0.1)),
-    var(--un-shadow-inset) 0 1px 2px -1px var(--un-shadow-color, rgb(0
-            0 0 / 0.1));
+    var(--un-shadow-inset) 0 1px 2px -1px var(--un-shadow-color, rgb(0 0 0 / 0.1));
   --un-shadow: 0 0 var(--un-shadow-color, rgb(0 0 0 / 0));
   box-shadow: var(--un-ring-offset-shadow), var(--un-ring-shadow),
     var(--un-shadow);
-  transition-property: color, background-color, border-color,
-    outline-color, text-decoration-color, fill, stroke, opacity,
-    box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, outline-color,
+    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
+    backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 0.15s;
   transition-duration: 0.4s;
@@ -422,9 +424,9 @@ h6:focus .header-anchor {
   border-radius: 0.25rem;
   padding-bottom: 1.25rem;
   opacity: 0;
-  transition-property: color, background-color, border-color,
-    outline-color, text-decoration-color, fill, stroke, opacity,
-    box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, outline-color,
+    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
+    backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 0.15s;
   transition-duration: 0.7s;
@@ -455,9 +457,9 @@ h6:focus .header-anchor {
 
 .table-of-contents ul > li > a {
   opacity: 0.75;
-  transition-property: color, background-color, border-color,
-    outline-color, text-decoration-color, fill, stroke, opacity,
-    box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, outline-color,
+    text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter,
+    backdrop-filter;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 0.15s;
 }
