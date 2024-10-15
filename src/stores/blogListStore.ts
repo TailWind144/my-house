@@ -49,9 +49,7 @@ export const useBlogListStore = defineStore('blogList', () => {
         blogList.sort((a, b) => Number(b.year) - Number(a.year))
 
         for (const yearListObj of blogList) {
-          yearListObj.list.sort(
-            (a, b) => new Date(b.date) - new Date(a.date)
-          )
+          yearListObj.list.sort((a, b) => new Date(b.date) - new Date(a.date))
         }
       }
     }

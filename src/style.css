@@ -21,6 +21,12 @@
   --c-border-hover: #4c4d4f;
   --c-scrollbar: #ccc;
   --c-scrollbar-hover: #bbb;
+  --c-code-diff-add: rgba(16, 185, 129, 0.14);
+  --c-code-diff-add-symbol: #18794e;
+  --c-code-diff-remove: rgba(244, 63, 94, 0.14);
+  --c-code-diff-remove-symbol: #b34e52;
+  --c-code-highlight: rgba(142, 150, 170, 0.14);
+  --c-inline-code: #f2f1f1;
 }
 
 .prose {
@@ -39,6 +45,12 @@ html.dark {
   --c-border-hover: #dcdfe6;
   --c-scrollbar: #444;
   --c-scrollbar-hover: #555;
+  --c-code-diff-add: rgba(16, 185, 129, 0.16);
+  --c-code-diff-add-symbol: #3dd68c;
+  --c-code-diff-remove: rgba(244, 63, 94, 0.16);
+  --c-code-diff-remove-symbol: #cb7676;
+  --c-code-highlight: rgba(101, 117, 133, 0.16);
+  --c-inline-code: #343434;
 }
 html.dark .prose {
   --fg: #bbb;
@@ -105,8 +117,11 @@ html.dark .prose {
   border-color: #7d7d7d4d;
   border-top-width: 1px;
 }
-.prose code {
+.prose p code {
   color: var(--fg-deep);
+  background-color: var(--c-inline-code);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
   font-weight: 600;
   font-size: 0.875em;
   letter-spacing: normal;
@@ -226,13 +241,41 @@ a.item:hover {
   content: close-quote;
 }
 
+/* shiki */
 html.dark .shiki,
 html.dark .shiki span {
-  color: var(--s-dark) !important;
-  background-color: #0e0e0e !important;
+  color: var(--shiki-dark) !important;
 }
-.shiki {
-  background-color: #f8f8f8 !important;
+html.dark .shiki {
+  background-color: var(--shiki-dark-bg) !important;
+}
+code .diff.add {
+  background-color: var(--c-code-diff-add);
+}
+code .diff.add::before {
+  content: '+';
+  color: var(--c-code-diff-add-symbol);
+}
+code .diff.remove {
+  background-color: var(--c-code-diff-remove);
+  opacity: 0.7;
+}
+code .diff.remove::before {
+  content: '-';
+  color: var(--c-code-diff-remove-symbol);
+}
+code .highlighted {
+  background-color: var(--c-code-highlight);
+  margin: 0 -17px;
+  padding: 0 17px;
+  min-width: calc(100% + 34px);
+  display: inline-block;
+}
+code .diff {
+  margin: 0 -17px;
+  padding: 0 17px;
+  min-width: calc(100% + 34px);
+  display: inline-block;
 }
 
 /* scroll */

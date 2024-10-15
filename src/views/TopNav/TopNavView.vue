@@ -1,12 +1,7 @@
 <template>
-  <div
-    class="flex items-center px-8 py-4 backdrop-blur backdrop-saturate-50"
-  >
+  <div class="flex items-center px-8 py-4 backdrop-blur backdrop-saturate-50">
     <div class="w-6">
-      <img
-        style="filter: drop-shadow(0 0 4px #fff)"
-        src="/favicon.ico"
-      />
+      <img style="filter: drop-shadow(0 0 4px #fff)" src="/favicon.ico" />
     </div>
     <div class="mx-auto flex items-center justify-center">
       <div
@@ -30,9 +25,7 @@
   <button
     title="Scroll to top"
     :class="
-      (scroll > 300
-        ? 'opacity-30'
-        : 'pointer-events-none opacity-0') +
+      (scroll > 300 ? 'opacity-30' : 'pointer-events-none opacity-0') +
       ' fixed bottom-3 right-3 z-50 flex h-10 w-10 items-center justify-center rounded-full transition duration-300 hover:bg-[#8883] hover:opacity-100 print:hidden'
     "
     @click="toTop()"

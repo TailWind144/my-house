@@ -10,7 +10,11 @@ import vue from '@vitejs/plugin-vue'
 import anchor from 'markdown-it-anchor'
 import TOC from 'markdown-it-table-of-contents'
 import LinkAttributes from 'markdown-it-link-attributes'
-import { bundledLanguages, getHighlighter } from 'shikiji'
+import Shiki from '@shikijs/markdown-it'
+import {
+  transformerNotationDiff,
+  transformerNotationHighlight
+} from '@shikijs/transformers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -26,23 +30,21 @@ export default defineConfig({
       wrapperComponent: 'WrapperBlog',
       wrapperClasses: 'prose slide-enter-content',
       async markdownItSetup(md) {
-        const shiki = await getHighlighter({
-          themes: ['vitesse-dark', 'vitesse-light'],
-          langs: Object.keys(bundledLanguages) as any
-        })
-
-        md.use((markdown) => {
-          markdown.options.highlight = (code, lang) => {
-            return shiki.codeToHtml(code, {
-              lang,
-              themes: {
-                light: 'vitesse-light',
-                dark: 'vitesse-dark'
-              },
-              cssVariablePrefix: '--s-'
-            })
-          }
-        })
+        md.use(
+          await Shiki({
+            themes: {
+              light: 'one-light',
+              dark: 'one-dark-pro'
+            },
+            colorReplacements: {
+              '#fafafa': '#f9f9f9'
+            },
+            transformers: [
+              transformerNotationDiff(),
+              transformerNotationHighlight()
+            ]
+          })
+        )
         md.use(anchor, {
           permalinkBefore: true,
           permalink: anchor.permalink.linkInsideHeader({

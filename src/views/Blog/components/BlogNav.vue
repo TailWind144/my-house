@@ -1,7 +1,7 @@
 <template>
   <div class="blog-nav flex gap-4 text-3xl">
     <router-link
-      v-for="(item, index) in nav"
+      v-for="(item, index) in blogNavObj"
       :key="index"
       :class="isActive(item.path)"
       :to="`/Blog/${item.path}`"
@@ -13,18 +13,10 @@
 
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-const nav = [
-  {
-    path: 'frontend',
-    text: '前端'
-  },
-  {
-    path: 'deep_learning',
-    text: '深度学习'
-  }
-]
+import blogNavObj from '@/util/blogNavObj'
+
 const route = useRoute()
-const isActive = (name) => (name === route.name ? 'active' : '')
+const isActive = (name: string) => (name === route.name ? 'active' : '')
 </script>
 
 <style scoped>

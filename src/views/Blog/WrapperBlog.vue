@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useFootNavStore } from '@/stores/footNavStore'
-import { renderMathJax } from '@/util/renderMathJax.js'
+import renderMathJax from '@/util/renderMathJax.js'
 import { useBlogListStore } from '@/stores/blogListStore'
 import FootNav from './components/FootNav.vue'
 const { frontmatter } = defineProps({ frontmatter: Object })
