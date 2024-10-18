@@ -202,7 +202,7 @@ div.textContent = 'hello vue3' // 直接修改
 
 关于 Svelte 这种无虚拟 DOM 的声明式框架，我这里了解的并不是很多，这里就放一张图——尤雨溪曾在知乎上对 Svelte 的评价。时间比较久远，Svelte 可能也有了几个版本的更新，可能不具有参考性。
 
-<img src="F:\材料\Project\my_house\src\pages\frontend\20241018130059.png" alt="20241018130059" style="zoom:50%;" />
+<img src="./20241018130059.png" style="zoom:50%;" />
 
 ## 参考资料
 
