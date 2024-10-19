@@ -13,6 +13,8 @@ import { useFootNavStore } from '@/stores/footNavStore'
 import renderMathJax from '@/util/renderMathJax.js'
 import { useBlogListStore } from '@/stores/blogListStore'
 import FootNav from './components/FootNav.vue'
+import mediumZoom from 'medium-zoom'
+
 const { frontmatter } = defineProps({ frontmatter: Object })
 
 const { getFootNav, getIndex } = useFootNavStore()
@@ -22,6 +24,9 @@ getIndex(frontmatter!.title)
 
 onMounted(() => {
   renderMathJax()
+  mediumZoom('.prose img', {
+    background: '#141414'
+  })
 })
 </script>
 

@@ -241,6 +241,11 @@ a.item:hover {
   content: close-quote;
 }
 
+.medium-zoom-overlay,
+.medium-zoom-image--opened {
+  z-index: 999;
+}
+
 /* shiki */
 html.dark .shiki,
 html.dark .shiki span {
