@@ -1,10 +1,6 @@
 <template>
   <div class="min-h-screen bg-[--c-bg] selection:bg-[#8884]">
-    <div
-      class="sticky top-0 z-50 border-b border-[--c-border] text-[#374151]/60 dark:text-[#e5e7eb]/60"
-    >
-      <TopNavView />
-    </div>
+    <TopNavView />
     <div class="prose m-auto px-7 py-10">
       <RouterView />
     </div>

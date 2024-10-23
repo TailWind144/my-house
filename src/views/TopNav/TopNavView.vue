@@ -1,41 +1,54 @@
 <template>
-  <div class="flex items-center px-8 py-4 backdrop-blur backdrop-saturate-50">
-    <div class="w-6">
-      <img style="filter: drop-shadow(0 0 4px #fff)" src="/favicon.ico" />
-    </div>
-    <div class="mx-auto flex items-center justify-center">
+  <div
+    :class="
+      (isTop ? '' : 'border-b border-[--c-border]') +
+      ' sticky top-0 z-50 text-[#374151]/60 transition-all duration-100 dark:text-[#e5e7eb]/60'
+    "
+  >
+    <div
+      :class="
+        (isTop
+          ? 'px-12 py-8'
+          : 'px-8 py-4 backdrop-blur backdrop-saturate-50') +
+        ' flex items-center transition-all duration-200'
+      "
+    >
+      <div :class="(isTop ? 'w-7' : 'w-6') + ' transition-all duration-200'">
+        <img style="filter: drop-shadow(0 0 4px #fff)" src="/favicon.ico" />
+      </div>
+      <div class="mx-auto flex items-center justify-center">
+        <div
+          class="mx-6 duration-300 hover:text-[#374151]/100 dark:hover:text-[#e5e7eb]/100"
+          v-for="(item, index) in navObj"
+          :key="index"
+        >
+          <router-link :to="item.toPath">
+            {{ item.name }}
+          </router-link>
+        </div>
+      </div>
       <div
-        class="mx-4 duration-300 hover:text-[#374151]/100 dark:hover:text-[#e5e7eb]/100"
-        v-for="(item, index) in navObj"
-        :key="index"
+        class="mx-2 flex w-4 cursor-pointer duration-300 hover:text-[#374151]/100 dark:hover:text-[#e5e7eb]/100"
+        @click="clickSwitchDark"
       >
-        <router-link :to="item.toPath">
-          {{ item.name }}
-        </router-link>
+        <Moon v-if="isDarkFlag" />
+        <Sunny v-else />
       </div>
     </div>
-    <div
-      class="mx-2 flex w-4 cursor-pointer duration-300 hover:text-[#374151]/100 dark:hover:text-[#e5e7eb]/100"
-      @click="clickSwitchDark"
+    <button
+      :class="
+        (scroll > 300 ? 'opacity-30' : 'pointer-events-none opacity-0') +
+        ' fixed bottom-3 right-3 z-50 flex h-10 w-10 items-center justify-center rounded-full transition duration-300 hover:bg-[#8883] hover:opacity-100 print:hidden'
+      "
+      @click="toTop()"
     >
-      <Moon v-if="isDarkFlag" />
-      <Sunny v-else />
-    </div>
+      <Top class="h-5 w-5" />
+    </button>
   </div>
-  <button
-    title="Scroll to top"
-    :class="
-      (scroll > 300 ? 'opacity-30' : 'pointer-events-none opacity-0') +
-      ' fixed bottom-3 right-3 z-50 flex h-10 w-10 items-center justify-center rounded-full transition duration-300 hover:bg-[#8883] hover:opacity-100 print:hidden'
-    "
-    @click="toTop()"
-  >
-    <Top class="h-7 w-7" />
-  </button>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useDark, useToggle, useWindowScroll } from '@vueuse/core'
 import { Sunny, Moon, Top } from '@element-plus/icons-vue'
 import navObj from '@/router/navObj'
@@ -97,6 +110,7 @@ function toTop() {
 }
 
 const { y: scroll } = useWindowScroll()
+const isTop = computed(() => scroll.value === 0)
 </script>
 
 <style scoped></style>
