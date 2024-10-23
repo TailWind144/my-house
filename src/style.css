@@ -363,7 +363,7 @@ h6:focus .header-anchor {
   top: 90px;
   bottom: 0;
   font-size: 0.8em;
-  left: 30px;
+  left: 40px;
   z-index: 200;
   overflow: hidden;
   display: none;
@@ -373,7 +373,7 @@ h6:focus .header-anchor {
 
 @media (min-width: 1024px) {
   .table-of-contents {
-    width: 200px;
+    width: 140px;
     display: flex;
   }
 }
@@ -423,7 +423,6 @@ h6:focus .header-anchor {
 }
 
 .table-of-contents > ul {
-  text-overflow: ellipsis;
   height: 100%;
   overflow-y: auto;
   margin-top: 0.25rem;
@@ -456,6 +455,9 @@ h6:focus .header-anchor {
 }
 
 .table-of-contents ul > li {
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+  overflow: hidden;
   padding-left: 0.8rem;
   line-height: 1.5em;
   margin-top: 0.5em;

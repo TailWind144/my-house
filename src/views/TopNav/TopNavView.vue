@@ -2,23 +2,23 @@
   <div
     :class="
       (isTop ? '' : 'border-b border-[--c-border]') +
-      ' sticky top-0 z-50 text-[#374151]/60 transition-all duration-100 dark:text-[#e5e7eb]/60'
+      ' sticky top-0 z-50 text-[#374151]/60 dark:text-[#e5e7eb]/60'
     "
   >
     <div
       :class="
-        (isTop
-          ? 'px-12 py-8'
-          : 'px-8 py-4 backdrop-blur backdrop-saturate-50') +
-        ' flex items-center transition-all duration-200'
+        (isTop ? 'sm:px-12 sm:py-8' : 'backdrop-blur backdrop-saturate-50') +
+        ' flex items-center px-8 py-4 transition-all duration-200'
       "
     >
-      <div :class="(isTop ? 'w-7' : 'w-6') + ' transition-all duration-200'">
+      <div
+        :class="(isTop ? 'sm:w-7' : '') + ' w-6 transition-all duration-200'"
+      >
         <img style="filter: drop-shadow(0 0 4px #fff)" src="/favicon.ico" />
       </div>
       <div class="mx-auto flex items-center justify-center">
         <div
-          class="mx-6 duration-300 hover:text-[#374151]/100 dark:hover:text-[#e5e7eb]/100"
+          class="nav-item duration-300 hover:text-[#374151]/100 dark:hover:text-[#e5e7eb]/100"
           v-for="(item, index) in navObj"
           :key="index"
         >
@@ -61,7 +61,7 @@ const isDark = useDark({
 const toggleDark = useToggle(isDark)
 const isDarkFlag = ref(localStorage.getItem('useDarkKEY') === 'dark')
 
-const clickSwitchDark = (e) => {
+const clickSwitchDark = (e: MouseEvent) => {
   const x = e?.clientX ?? innerWidth / 2
   const y = e?.clientY ?? innerHeight / 2
   const endRadius = Math.hypot(
@@ -113,4 +113,15 @@ const { y: scroll } = useWindowScroll()
 const isTop = computed(() => scroll.value === 0)
 </script>
 
-<style scoped></style>
+<style scoped>
+.nav-item {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+@media (min-width: 450px) {
+  .nav-item {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+}
+</style>
