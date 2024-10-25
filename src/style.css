@@ -30,14 +30,14 @@
 }
 
 .prose {
-  --fg: #555;
+  --fg: #333;
   --fg-h3: #333;
   --fg-deep: #222;
   --fg-deeper: #000;
   --stroke: #303030;
   color: var(--fg);
-  max-width: 75ch;
-  line-height: 1.75;
+  max-width: 80ch;
+  line-height: 1.75rem;
 }
 html.dark {
   --c-bg: #141414;
@@ -373,8 +373,13 @@ h6:focus .header-anchor {
 
 @media (min-width: 1024px) {
   .table-of-contents {
-    width: 140px;
     display: flex;
+  }
+}
+
+@media (min-width: 1100px) {
+  .table-of-contents {
+    width: 150px;
   }
 }
 

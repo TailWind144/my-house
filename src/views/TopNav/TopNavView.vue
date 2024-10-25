@@ -8,11 +8,14 @@
     <div
       :class="
         (isTop ? 'sm:px-12 sm:py-8' : 'backdrop-blur backdrop-saturate-50') +
-        ' flex items-center px-8 py-4 transition-all duration-200'
+        ' flex items-center px-8 py-4 transition-all duration-500 ease-in-out'
       "
     >
       <div
-        :class="(isTop ? 'sm:w-7' : '') + ' w-6 transition-all duration-200'"
+        :class="
+          (isTop ? 'sm:w-7' : '') +
+          ' w-6 transition-all duration-500 ease-in-out'
+        "
       >
         <img style="filter: drop-shadow(0 0 4px #fff)" src="/favicon.ico" />
       </div>
