@@ -17,7 +17,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(createPinia())
 app.use(router)
 const script = document.createElement('script')
-script.setAttribute('src', '/tex-mml-chtml.js')
+script.setAttribute('src', '/my-house/tex-mml-chtml.js')
 script.setAttribute('defer', 'true')
 document.getElementsByTagName('body')[0].appendChild(script)
 
