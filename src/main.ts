@@ -17,10 +17,10 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 app.use(createPinia())
 app.use(router)
 
-// let script: HTMLScriptElement | null = document.createElement('script')
-// script.setAttribute('src', '/my-house/tex-mml-chtml.js')
-// document.head.appendChild(script)
-// script = null
+let script: HTMLScriptElement | null = document.createElement('script')
+script.setAttribute('src', '/my-house/tex-mml-chtml.js')
+document.head.appendChild(script)
+script = null
 
 app.component('WrapperBlog', WrapperBlog)
 
