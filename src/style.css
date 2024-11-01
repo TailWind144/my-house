@@ -109,6 +109,10 @@ html.dark .prose {
 }
 .prose img {
   margin: 0 auto;
+  border-radius: 0.5rem;
+}
+.prose video {
+  border-radius: 0.5rem;
 }
 .prose hr {
   width: 50px;
