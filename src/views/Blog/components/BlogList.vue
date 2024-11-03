@@ -1,7 +1,7 @@
 <template>
   <div class="slide-enter-content">
     <div v-for="(yearListObj, index) in blogList" :key="index">
-      <div class="relative h-20 select-none">
+      <div class="pointer-events-none relative h-20 select-none">
         <span
           class="year absolute -left-8 top-3 text-9xl font-bold text-transparent opacity-20 dark:opacity-10"
         >
@@ -48,11 +48,6 @@ getBlogList()
   font-family: '';
   -webkit-text-stroke-width: 2px;
   --un-text-stroke-opacity: 1;
-  -webkit-text-stroke-color: rgba(
-    170,
-    170,
-    170,
-    var(--un-text-stroke-opacity)
-  );
+  -webkit-text-stroke-color: rgba(170, 170, 170, var(--un-text-stroke-opacity));
 }
 </style>
