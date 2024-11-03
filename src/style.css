@@ -121,7 +121,8 @@ html.dark .prose {
   border-color: #7d7d7d4d;
   border-top-width: 1px;
 }
-.prose p code {
+.prose p code,
+.prose li code {
   color: var(--fg-deep);
   background-color: var(--c-inline-code);
   padding: 0.125rem 0.25rem;
