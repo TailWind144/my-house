@@ -239,7 +239,7 @@ grid-template-areas:
 
 Grid 布局使用的对齐属性与 Flex 布局相同，并且多了两个属性 `justify-self` 和 `justify-items`。由于 Grid 布局没有主轴和交叉轴的概念，这里的 `justify-` 指的是列方向，`align-` 指的是行方向。
 
-而且在 Grid 布局中我们可以更加直观的理解 `-content` 和 `-items` 的区别，下图是 `justify-content` 和 `align-content` 都为 `center` 的情况：
+而且在 Grid 布局中我们可以更加直观地理解 `-content` 和 `-items` 的区别，下图是 `justify-content` 和 `align-content` 都为 `center` 的情况：
 
 ![20241103194832](./20241103194832.png)
 
