@@ -135,11 +135,11 @@ function compose(middlewares) {
           const middleware = middlewares[i]
           // 调用中间件函数，并传入 ctx 对象和 next 函数
           // next 函数 => 下一个中间件函数（这里需要判断是否全部执行，所以调用我们的递归函数，并用一个函数封装）
-          middleware(ctx, () => dispatch(i + 1))
+          return middleware(ctx, () => dispatch(i + 1))
       }
     }
     // 执行第一个中间件函数，开始递归
-    dispatch(0);
+    return dispatch(0);
   }
 }
 ```
