@@ -17,7 +17,13 @@
           ' w-6 transition-all duration-500 ease-in-out'
         "
       >
-        <img style="filter: drop-shadow(0 0 4px #fff)" src="/favicon.ico" />
+        <a
+          href="https://github.com/TailWind144"
+          target="_blank"
+          title="Github Profile"
+        >
+          <img style="filter: drop-shadow(0 0 4px #fff)" src="/favicon.ico" />
+        </a>
       </div>
       <div class="mx-auto flex items-center justify-center">
         <div
