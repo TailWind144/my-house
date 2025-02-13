@@ -67,6 +67,8 @@ interface Subscriber {
     deps: Link
     // 指向当前副作用函数的 Sub to Deps doubly-linked list 链表的尾部节点
     depsTail: Link
+    // 指向当前副作用函数在 batchedEffect 链表中的下一个副作用函数
+    next: Subscriber
     // 执行函数
     notify: Function
 }
@@ -80,6 +82,8 @@ class Dep {
     track: Function
     // 触发依赖
     trigger: Function
+    // 通知依赖
+    notify: Function
 }
 ```
 
@@ -106,7 +110,49 @@ class Link {
 
 之前说到，在旧版本中部分的依赖关系并没有很好地得到复用，我们看看在双向链表中是如何进行依赖清理的。
 
-先来看下 `track` 函数中关于节点维护的代码：
+首先在全局中存在一个 `WeakMap`，用以管理所有响应式数据中不同属性对应的 `Dep` 实例，这些 `Dep` 实例通过全局的 `track` 函数收集。
+
+```tsx
+type KeyToDepMap = Map<any, Dep>;
+const targetMap = new WeakMap<object, KeyToDepMap>();
+
+export function track(target: object, type: TrackOpTypes, key: unknown): void {
+  // 检查是否应该收集依赖
+  if (shouldTrack && activeSub) {
+    // 获取目标对象的依赖 Map
+    let depsMap = targetMap.get(target);
+    if (!depsMap) {
+      // 如果不存在，创建一个新的 Map
+      targetMap.set(target, (depsMap = new Map()));
+    }
+
+    // 获取属性的依赖对象
+    let dep = depsMap.get(key);
+    if (!dep) {
+      // 如果不存在，创建一个新的 Dep 实例
+      depsMap.set(key, (dep = new Dep()));
+      // 保存反向引用，用于清理
+      dep.map = depsMap;
+      dep.key = key;
+    }
+
+    // 开发环境下收集更多的调试信息
+    if (__DEV__) {
+      dep.track({
+        target,
+        type,
+        key,
+      });
+    } else {
+      dep.track();
+    }
+  }
+}
+```
+
+全局的 `track` 函数会在访问响应式数据时，即在对应 `Proxy` 对象定义的捕获函数 `get` 中调用。
+
+然后来看下 `dep.track` 方法中关于节点维护的代码：
 
 ```ts
 let link = this.activeLink;
@@ -168,7 +214,7 @@ else if (link.version === -1) {
 
 从上图可以看出，副作用函数重新执行的时候，访问到哪个响应式数据，就会断开这个响应式数据对应的 Link 链接，重新添加到链表的尾部，形成一个新的顺序。而且这些 Link 可以复用，并没有重新创建，只是修改了它们的指针指向。
 
-副作用函数执行前，会调用 `prepareDeps` 函数，将该副作用函数的 *Sub to Deps doubly-linked list* 链表上的所有 Link 节点的 `version` 属性重置为 `-1`。在执行依赖收集函数 `track` 时，`link.version` 会进行计数，如果最后版本值还是 `-1`，说明该副作用函数不再依赖该响应式数据。
+副作用函数执行前，会调用 `prepareDeps` 函数，将该副作用函数的 *Sub to Deps doubly-linked list* 链表上的所有 Link 节点的 `version` 属性重置为 `-1`。在执行依赖收集函数 `track` 时，`link.version` 会同步到跟 `dep.version` 相同的版本。如果最后版本值还是 `-1`，说明该副作用函数不再依赖该响应式数据。
 
 ```ts
 function prepareDeps(sub: Subscriber) {
@@ -223,7 +269,55 @@ function cleanupDeps(sub: Subscriber) {
 
 因此，我们可以发现，通过横向链表——***Sub to Deps doubly-linked list*** 和版本计数可以让我们找到副作用函数中不再依赖的响应式数据并清除，同时最大地复用之前存在的依赖关系，从而优化了依赖清理中的内存开销。
 
-而纵向链表——***Dep to Subs doubly-linked list*** 便是在响应式数据发生变化时，通过迭代纵向链表去执行依赖于该响应式数据的副作用函数。但是注意，`Dep` 只有一个指向链表尾部 Link 的指针 `subs`，也就是说是从最后的 Link 节点向上遍历找到所有的副作用函数。不是向下遍历的原因，是因为 `endBatch` 里面批量更新的逻辑，`endBatch` 后更新顺序还是从前往后的。除此之外，其实还跟 `computed` 有关，这主要是因为 `computed` 它既可以是副作用函数（`Sub`），也可以作为响应式数据（`Dep`），情况比较特殊。
+而纵向链表——***Dep to Subs doubly-linked list*** 便是在响应式数据发生变化时，通过迭代纵向链表去执行依赖于该响应式数据的副作用函数。
+
+但是注意，`Dep` 只有一个指向链表尾部 Link 的指针 `subs`，也就是说是从最后的 Link 节点向上遍历找到所有的副作用函数。在 `dep.notify` 方法中通过节点的 `prevSub` 指针来迭代 *Dep to Subs doubly-linked list* 链表以通知所有依赖于该响应式数据的副作用函数。
+
+```tsx
+// dep.notify 方法会在 dep.trigger 中调用
+notify(debugInfo?: DebuggerEventExtraInfo): void {
+    startBatch()
+    try {
+      // ...
+      for (let link = this.subs; link; link = link.prevSub) {	// [!code highlight]
+        if (link.sub.notify()) {	// [!code highlight]
+          // 如果 notify() 返回 true，说明该副作用函数是一个 computed。
+          // 还需要通知该 computed 所依赖的响应式数据
+          // 在这里调用而不是在 computed 内部通知，是为了避免过长的递归调用栈
+          ;(link.sub as ComputedRefImpl).dep.notify()
+        }
+      }
+    } finally {
+      endBatch()
+    }
+  }
+}
+```
+
+在这里我们可以发现两个新的函数——`startBatch` 和 `endBatch`，这是 Vue 3.5 引入的批处理 API，使得副作用函数不会立即执行，而是先将所有需要重新执行的副作用函数通过一个 <u>`batchedEffect` 链表</u>关联起来。
+
+在执行 `sub.notify` 方法时，会执行一个 `batch` 函数。在该函数中会维护一个 `batchedEffect` 链表，执行时将当前的副作用函数添加到链表的头部位置。
+
+```tsx
+let batchDepth = 0
+let batchedSub: Subscriber | undefined
+let batchedComputed: Subscriber | undefined
+
+export function batch(sub: Subscriber, isComputed = false): void {
+  sub.flags |= EffectFlags.NOTIFIED
+  if (isComputed) {
+    sub.next = batchedComputed
+    batchedComputed = sub
+    return
+  }
+  sub.next = batchedSub	// [!code highlight]
+  batchedSub = sub	// [!code highlight]
+}
+```
+
+因此不是向下遍历的原因，是因为此处链表维护的逻辑。最终在 `endBatch` 函数中遍历 `batchedEffect` 链表时，仍然是从前往后去执行副作用函数的 `trigger` 方法来重新执行函数的。这里的后续逻辑会涉及到版本计数，所以留在下一篇文章中讲述。
+
+除此之外，其实还跟 `computed` 有关，这主要是因为 `computed` 它既可以是副作用函数（`Sub`），也可以作为响应式数据（`Dep`）。
 
 ## 参考资料
 
