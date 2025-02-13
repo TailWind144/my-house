@@ -185,7 +185,9 @@ try {
 }
 ```
 
-`computed` 此时作为副作用函数，它是否需要更新要根据其依赖的响应式数据是否发生变化来决定，因此调用 `isDirty(computed)` 来进一步判断。如果返回 `false`，意味着 `computed` 不需要更新。否则，重新执行 `computed` 的回调函数。
+`computed` 此时作为副作用函数，它是否需要更新要根据其依赖的响应式数据是否发生变化来决定，因此调用 `isDirty(computed)` 来进一步判断。如果返回 `false`，意味着 `computed` 不需要更新。否则，重新执行 `computed` 的回调函数，同时更新该 `computed` 对应的 `dep` 实例对象的版本号，意味着该 `computed` 发生了变化。
+
+在 `isDirty` 函数中 `(refreshComputed(link.dep.computed) || link.dep.version !== link.version))`在执行完 `refreshComputed` 逻辑后，会再一次比对节点的版本号 `link.version` 与响应式数据的版本号 `dep.version` 是否相同来决定是否要重新执行副作用函数。
 
 ## 总结
 
