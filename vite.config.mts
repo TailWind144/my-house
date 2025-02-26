@@ -27,6 +27,7 @@ export default defineConfig({
       dirs: ['src/pages/deep_learning', 'src/pages/frontend']
     }),
     Markdown({
+      headEnabled: true,
       wrapperComponent: 'WrapperBlog',
       wrapperClasses: 'prose slide-enter-content',
       async markdownItSetup(md) {
@@ -68,8 +69,8 @@ export default defineConfig({
     }),
     Pages({
       dirs: [
-        { dir: 'src/pages/frontend', baseRoute: '/page' },
-        { dir: 'src/pages/deep_learning', baseRoute: '/page' }
+        { dir: 'src/pages/frontend', baseRoute: '/my-house/page' },
+        { dir: 'src/pages/deep_learning', baseRoute: '/my-house/page' }
       ],
       extensions: ['vue', 'md'],
       extendRoute(route) {
@@ -90,5 +91,8 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  ssgOptions: {
+    formatting: 'minify'
   }
 })

@@ -4,7 +4,7 @@
       v-for="(item, index) in blogNavObj"
       :key="index"
       :class="isActive(item.path)"
-      :to="`/Blog/${item.path}`"
+      :to="`/my-house/Blog/${item.path}`"
     >
       {{ item.text }}
     </router-link>

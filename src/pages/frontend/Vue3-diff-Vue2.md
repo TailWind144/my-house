@@ -1,7 +1,10 @@
 ---
-title: Vue3中Diff算法的改进
+title: Vue3 中 Diff 算法的改进
 date: 2023/8/29
 type: frontend
+meta:
+  - name: description
+    content: 介绍 Vue3 中 Diff 算法的改进，包括静态提升、更新类型标记（Patch Flag）、Block Tree
 ---
 
 [[toc]]

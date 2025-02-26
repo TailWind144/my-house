@@ -1,7 +1,10 @@
 ---
-title: Web应用中的性能优化
+title: Web 应用中的性能优化
 date: 2023/9/26
 type: frontend
+meta:
+  - name: description
+    content: 介绍 Web 应用中的性能优化，从编码、具体场景优化、图片、打包压缩、浏览器层面、资源传输这几个方面阐述
 ---
 
 [[toc]]

@@ -1,7 +1,10 @@
 ---
-title: Webpack八股
+title: Webpack 八股
 date: 2023/9/16
 type: frontend
+meta:
+  - name: description
+    content: Webpack 八股
 ---
 
 [[toc]]

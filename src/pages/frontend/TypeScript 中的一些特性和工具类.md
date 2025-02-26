@@ -2,6 +2,9 @@
 title: TypeScript 中的一些特性和工具类
 date: 2025/1/6
 type: frontend
+meta:
+  - name: description
+    content: 介绍 TypeScript 中的一些相关特性和工具类，包括扩展运算符、映射类型、infer 关键字、联合类型的分配性以及 TS 中的常用工具类
 ---
 
 [[toc]]

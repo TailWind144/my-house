@@ -1,7 +1,10 @@
 ---
-title: Reflect对象
+title: Reflect 对象
 date: 2023/11/14
 type: frontend
+meta:
+  - name: description
+    content: 介绍 Reflect 对象，为什么要通过 Reflect 对象执行默认行为
 ---
 
 [[toc]]

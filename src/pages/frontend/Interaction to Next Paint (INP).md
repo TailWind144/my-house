@@ -2,6 +2,9 @@
 title: Interaction to Next Paint (INP)
 date: 2024/11/1
 type: frontend
+meta:
+  - name: description
+    content: 介绍 Interaction to Next Paint (INP) 和 First Input Delay (FID)，以及如何优化 FID 和 INP 指标
 ---
 
 [[toc]]

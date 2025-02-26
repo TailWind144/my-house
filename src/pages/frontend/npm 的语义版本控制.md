@@ -2,6 +2,9 @@
 title: npm 的语义版本控制
 date: 2024/3/14
 type: frontend
+meta:
+  - name: description
+    content: 介绍 npm 中的语义版本控制，主要对版本号的定义以及控制符号进行了详细介绍
 ---
 
 语义版本控制的概念很简单：所有的版本都有 3 个数字：`x.y.z`。

@@ -1,7 +1,10 @@
 ---
-title: Vue常用的修饰符
+title: Vue 常用的修饰符
 date: 2023/10/4
 type: frontend
+meta:
+  - name: description
+    content: Vue 常用的修饰符，包括表单修饰符（v-model）、事件修饰符、鼠标键盘修饰符
 ---
 
 [[toc]]

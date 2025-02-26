@@ -1,7 +1,10 @@
 ---
-title: Vue 3.5 版本对响应式系统的重构
+title: Vue 3.5 对响应式系统的重构
 date: 2025/1/24
 type: frontend
+meta:
+  - name: description
+    content: 介绍 Vue 3.5 对响应式系统的重构，主要介绍双向链表如何解决依赖清理的问题
 ---
 
 [[toc]]

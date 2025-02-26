@@ -1,7 +1,10 @@
 ---
-title: Vite与传统构建工具
+title: Vite 与传统构建工具
 date: 2023/8/29
 type: frontend
+meta:
+  - name: description
+    content: 介绍 Vite 与传统构建工具的区别，以及 Vite 在开发环境和生产环境下采用不同的打包构建策略
 ---
 
 [[toc]]

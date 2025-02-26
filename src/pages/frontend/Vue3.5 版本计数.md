@@ -2,6 +2,9 @@
 title: Vue 3.5 版本计数
 date: 2025/2/13
 type: frontend
+meta:
+  - name: description
+    content: Vue 3.5 版本计数，主要介绍普通响应式数据和 computed 如何利用版本计数来判断是否需要更新
 ---
 
 [[toc]]
