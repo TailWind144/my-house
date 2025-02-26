@@ -51,36 +51,37 @@ export const createApp = ViteSSG(
       }
     }
   },
-  ({ app, router }) => {
+  ({ app, router, isClient }) => {
     for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
       app.component(key, component)
     }
 
     app.use(createHead())
     app.use(createPinia())
-
-    let script: HTMLScriptElement | null = document.createElement('script')
-    script.setAttribute('src', '/my-house/tex-mml-chtml.js')
-    document.head.appendChild(script)
-    script = null
-
     app.component('WrapperBlog', WrapperBlog)
 
-    router.beforeEach((to, from, next) => {
-      const { isInit, getBlogList, setInitTrue } = useBlogListStore()
-      if (!isInit) {
-        getBlogList()
-        setInitTrue()
-      }
-      if (to.name !== from.name) NProgress.start()
-      if (!('frontmatter' in to.meta))
-        document.title = `${to.meta.title} | TailWind`
-      next()
-    })
+    if (isClient) {
+      let script: HTMLScriptElement | null = document.createElement('script')
+      script.setAttribute('src', '/my-house/tex-mml-chtml.js')
+      document.head.appendChild(script)
+      script = null
 
-    router.afterEach(() => {
-      NProgress.done()
-    })
+      router.beforeEach((to, from, next) => {
+        const { isInit, getBlogList, setInitTrue } = useBlogListStore()
+        if (!isInit) {
+          getBlogList()
+          setInitTrue()
+        }
+        if (to.name !== from.name) NProgress.start()
+        if (!('frontmatter' in to.meta))
+          document.title = `${to.meta.title} | TailWind`
+        next()
+      })
+
+      router.afterEach(() => {
+        NProgress.done()
+      })
+    }
   }
 )
 

@@ -40,7 +40,7 @@
         class="mx-2 flex w-4 cursor-pointer duration-300 hover:text-[#374151]/100 dark:hover:text-[#e5e7eb]/100"
         @click="clickSwitchDark"
       >
-        <Moon v-if="isDarkFlag" />
+        <Moon v-if="isDark" />
         <Sunny v-else />
       </div>
     </div>
@@ -57,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useDark, useToggle, useWindowScroll } from '@vueuse/core'
 import { Sunny, Moon, Top } from '@element-plus/icons-vue'
 import navObj from '@/router/navObj'
@@ -68,7 +68,6 @@ const isDark = useDark({
   valueLight: 'light'
 })
 const toggleDark = useToggle(isDark)
-const isDarkFlag = ref(localStorage.getItem('useDarkKEY') === 'dark')
 
 const clickSwitchDark = (e: MouseEvent) => {
   const x = e?.clientX ?? innerWidth / 2
@@ -77,18 +76,14 @@ const clickSwitchDark = (e: MouseEvent) => {
     Math.max(x, innerWidth - x),
     Math.max(y, innerHeight - y)
   )
-  const updateDrakFlag = () => {
-    isDarkFlag.value = !isDarkFlag.value
-    toggleDark()
-  }
 
   if (!document.startViewTransition) {
-    updateDrakFlag()
+    toggleDark()
     return
   }
 
   const transition = document.startViewTransition(() => {
-    updateDrakFlag()
+    toggleDark()
   })
 
   transition.ready.then(() => {
