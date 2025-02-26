@@ -82,7 +82,6 @@ export default defineConfig({
             frontmatter: data
           })
         }
-        route.path = encodeURI(route.path)
         return route
       }
     })
