@@ -11,8 +11,6 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import BlogNav from './components/BlogNav.vue'
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>

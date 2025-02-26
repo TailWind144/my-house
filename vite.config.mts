@@ -24,7 +24,7 @@ export default defineConfig({
       include: [/\.vue$/, /\.md$/]
     }),
     Components({
-      dirs: ['src/pages/deep_learning', 'src/pages/frontend']
+      include: [/\.vue$/, /\.vue\?vue/, /\.vue\.[tj]sx?\?vue/, /\.md$/]
     }),
     Markdown({
       headEnabled: true,
@@ -69,8 +69,8 @@ export default defineConfig({
     }),
     Pages({
       dirs: [
-        { dir: 'src/pages/frontend', baseRoute: '/my-house/page' },
-        { dir: 'src/pages/deep_learning', baseRoute: '/my-house/page' }
+        { dir: 'src/pages/frontend', baseRoute: '/page' },
+        { dir: 'src/pages/deep_learning', baseRoute: '/page' }
       ],
       extensions: ['vue', 'md'],
       extendRoute(route) {

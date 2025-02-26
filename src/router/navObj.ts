@@ -1,15 +1,15 @@
 const navObj = [
   {
     name: '首页',
-    toPath: '/my-house'
+    toPath: '/'
   },
   {
     name: '博客',
-    toPath: '/my-house/Blog/frontend'
+    toPath: '/Blog/frontend'
   },
   {
     name: '友链',
-    toPath: '/my-house/FriendLink'
+    toPath: '/FriendLink'
   }
 ]
 export default navObj

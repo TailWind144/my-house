@@ -9,7 +9,6 @@ import App from './App.vue'
 
 import HomeView from '@/views/Home/HomeView.vue'
 import blogNavObj from '@/util/blogNavObj'
-import WrapperBlog from './views/Blog/WrapperBlog.vue'
 import NProgress from 'nprogress'
 import { useBlogListStore } from '@/stores/blogListStore'
 
@@ -22,21 +21,22 @@ NProgress.configure({
 export const createApp = ViteSSG(
   App,
   {
+    base: '/my-house/',
     routes: [
       {
-        path: '/my-house',
+        path: '/',
         name: 'home',
         component: HomeView,
         meta: { title: '首页' }
       },
       {
-        path: '/my-house/Blog',
+        path: '/Blog',
         name: 'Blog',
         component: () => import('@/views/Blog/BlogView.vue'),
         children: blogNavObj
       },
       {
-        path: '/my-house/FriendLink',
+        path: '/FriendLink',
         name: 'FriendLink',
         component: () => import('@/views/FriendLink/FriendLinkView.vue'),
         meta: { title: '友链' }
@@ -58,7 +58,6 @@ export const createApp = ViteSSG(
 
     app.use(createHead())
     app.use(createPinia())
-    app.component('WrapperBlog', WrapperBlog)
 
     if (isClient) {
       let script: HTMLScriptElement | null = document.createElement('script')

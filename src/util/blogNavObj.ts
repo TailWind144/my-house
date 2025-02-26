@@ -1,4 +1,4 @@
-const BlogList = () => import('../views/Blog/components/BlogList.vue')
+const BlogList = () => import('@/components/BlogComponents/BlogList.vue')
 
 const blogNavObj = [
   {

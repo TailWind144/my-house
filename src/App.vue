@@ -8,9 +8,6 @@
   <ArtPlum />
 </template>
 
-<script setup lang="ts">
-import TopNav from '@/components/TopNav.vue'
-import ArtPlum from '@/components/ArtPlum.vue'
-</script>
+<script setup lang="ts"></script>
 
 <style scoped></style>

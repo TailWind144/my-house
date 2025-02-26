@@ -7,7 +7,13 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ArtPlum: typeof import('./src/components/ArtPlum.vue')['default']
+    BlogList: typeof import('./src/components/BlogComponents/BlogList.vue')['default']
+    BlogNav: typeof import('./src/components/BlogComponents/BlogNav.vue')['default']
+    FootNav: typeof import('./src/components/BlogComponents/FootNav.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TopNav: typeof import('./src/components/TopNav.vue')['default']
+    WrapperBlog: typeof import('./src/components/WrapperBlog.vue')['default']
   }
 }
