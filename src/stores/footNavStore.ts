@@ -6,8 +6,8 @@ export const useFootNavStore = defineStore('footNav', () => {
   const footNav = ref<Array<Post>>([])
   const index = ref<number>(0)
   const showNav = computed(() => [
-    footNav.value[index.value - 1] || { path: '' },
-    footNav.value[index.value + 1] || { path: '' }
+    footNav.value[index.value + 1] || { path: '' },
+    footNav.value[index.value - 1] || { path: '' }
   ])
 
   function getFootNav(blogList: Array<YearListObj>) {

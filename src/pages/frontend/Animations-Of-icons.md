@@ -94,7 +94,7 @@ meta:
 
 ## SVG 动画
 
-矢量图 SVG 本身就支持动画，通过 SVG 实现 icons 动画是个不错的选择。这里分享一个开源库 [pqoqubbw/icons](https://icons.pqoqubbw.dev/)，里面提供了很多具备动画的 SVG icons。
+矢量图 SVG 本身就支持动画，通过 SVG 实现 icons 动画也是个不错的选择。这里分享一个开源库 [pqoqubbw/icons](https://icons.pqoqubbw.dev/)，里面提供了很多具备动画的 SVG icons。
 
 ### 优势
 
