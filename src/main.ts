@@ -1,6 +1,6 @@
 import './style.css'
 import { createPinia } from 'pinia'
-import { createHead } from '@vueuse/head'
+import { createHead } from '@unhead/vue'
 import { ViteSSG } from 'vite-ssg'
 import 'nprogress/nprogress.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
