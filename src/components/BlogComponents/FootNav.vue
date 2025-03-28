@@ -7,7 +7,7 @@
         v-if="item.path"
       >
         <div class="label mb-1 text-sm">
-          {{ index ? '上一篇' : '下一篇' }}
+          {{ index ? '下一篇' : '上一篇' }}
         </div>
         <div
           class="overflow-hidden text-ellipsis whitespace-nowrap text-[--fg-deeper]"
