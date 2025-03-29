@@ -81,9 +81,9 @@ type GetFirstChar<S> = S extends `${infer T}${infer U}` ? T : S;
 type Last<T extends any[]> = T extends [...infer L, infer R] ? R : never
 ```
 
-### 联合类型的分配性
+### 联合类型的分配性（分布条件类型）
 
-我们要如何去遍历一个联合类型呢？巧妙的是，**当条件类型作用于泛型类型时，当泛型是联合类型时会变得具有分配性**。
+我们要如何去遍历一个联合类型呢？巧妙的是，**当条件类型作用于泛型类型时，且该泛型是联合类型时会变得具有分配性**。
 
 来看个例子，TS 的内置工具类 `Exclude<T, U>`，其作用是从联合类型 `T` 中排除 `U` 的类型成员，返回一个新的类型。现在我们来手写实现它：
 
@@ -104,6 +104,29 @@ type Result = ('dog' extends Anis2 ? never : 'dog') |
 ```
 
 这样我们就可以利用这个分配性来迭代一个联合类型，来实现  `Exclude<T, U>` 工具类。
+
+------
+
+需要注意的是，`never` 是一个**特殊的联合类型**，它<u>没有任何一个成员</u>。因此会出现以下这种出乎意料的情况：
+
+```tsx
+// a is true
+type a = never extends never ? true : false;
+
+// b is never
+type isNever<T> = T extends never ? true : false
+type b = isNever<never>
+```
+
+因为 `never` 是联合类型，根据联合类型的分配性，当 `never` 作为泛型传入且参与条件类型时，它需要将成员分别参与计算最后合并为一个联合类型返回。但又由于它并不包含任何成员，自然也不需要参与条件类型计算了，所以此时会直接返回 `never`。
+
+根据[官方文档](https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#distributive-conditional-types)关于 *Distributive Conditional Types*（分布条件类型） 的描述，如果你不想联合类型具有这样的行为，可以将 `extends` 两侧的类型改用元组形式：
+
+```tsx
+// b is true
+type isNever<T> = [T] extends [never] ? true : false
+type b = isNever<never>
+```
 
 ## 常用工具类型
 
