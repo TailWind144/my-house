@@ -9,7 +9,16 @@ meta:
 
 [[toc]]
 
-**Reflect** 对象的主要目的是替代一些原本存在于 JS 中的<u>全局对象</u>（例如 Object 、Function 等）上的方法。这些方法与 **Proxy** 对象中提供的捕获函数相同，所以通常这两者会结合使用。Proxy 对象拦截底层对象的操作，Reflect 对象来执行默认行为或其他自定义行为。
+Proxy 对象的捕获函数或 Reflect 对象上的静态方法中包含了<u>对象所有的基本行为</u>，主要可以分为<u>六大类</u>：
+
+1. **最基本的行为**：`get`、`set`、删除属性的 `deleteProperty`
+2. **原型对象**的 `get` 和 `set`：`getPrototypeOf`、`setPrototypeOf`
+3. **对象描述符**的 `get` 和 `set`：`getOwnPropertyDescriptor`、`definedProperty`
+4. **对象可扩展性**的 `get` 和 `set` ：`isExtensible`、`preventExtensions`
+5. **对象的迭代行为**：`for……in` 迭代方式的 `has`、`Object.getOwnPropertyNames` 方法和 `Object.getOwnPropertySymbols` 方法的`ownKeys`
+6. **函数对象的行为**：普通形式调用的 `apply`、以构造函数形式调用（实例化对象）的 `construct`
+
+**Reflect** 对象的主要目的是替代一些原本存在于 JS 中的全局对象上的方法。这些方法与 **Proxy** 对象中提供的捕获函数相同，所以通常这两者会结合使用。Proxy 对象拦截底层对象的操作，Reflect 对象来执行默认行为或其他自定义行为。
 
 ## 为什么要通过 Reflect 对象执行默认行为
 
@@ -17,7 +26,7 @@ JavaScript 中一些默认行为的实现可以通过其他全局对象上一些
 
 例如，`Reflect.has()` 是一个与 **in** 运算符行为相同的方法，能够判断一个对象是否包含某个属性。而 **Object.hasOwnProperty()** 只能判断对象自身是否具有指定的属性，无法判断原型链上是否有该属性。
 
-另外，使用 Reflect 对象还能使代码更加具有<u>可读性和可维护性</u>。因为 Reflect 对象的API方法非常严格，它们的返回值类型和参数要求都非常明确。使得我们开发人员能够更好地理解代码的逻辑和目的，从而避免出现一些难以诊断的错误。
+另外，使用 Reflect 对象还能使代码更加具有<u>可读性和可维护性</u>。因为 Reflect 对象的 API 方法非常严格，它们的返回值类型和参数要求都非常明确。使得我们开发人员能够更好地理解代码的逻辑和目的，从而避免出现一些难以诊断的错误。
 
 还有一个重要原因在于 `Reflect.get` 和 `Reflect.set` 可以接受第三个参数 `receiver`，而 Proxy 中对应这两个行为的捕获函数也有这第三个参数以表明当前执行该行为的对象，这个参数使得代理对象在执行默认行为 `getter` 和 `setter` 时它的 `this` 可以指向当前访问的对象（在过去执行 `getter` 和 `setter` 时是没有办法去更改 `this` 的指向的），使得对象的行为能够正确执行。
 
