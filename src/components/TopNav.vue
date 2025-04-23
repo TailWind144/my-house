@@ -70,13 +70,6 @@ const isDark = useDark({
 const toggleDark = useToggle(isDark)
 
 const clickSwitchDark = (e: MouseEvent) => {
-  const x = e?.clientX ?? innerWidth / 2
-  const y = e?.clientY ?? innerHeight / 2
-  const endRadius = Math.hypot(
-    Math.max(x, innerWidth - x),
-    Math.max(y, innerHeight - y)
-  )
-
   if (!document.startViewTransition) {
     toggleDark()
     return
@@ -84,25 +77,6 @@ const clickSwitchDark = (e: MouseEvent) => {
 
   const transition = document.startViewTransition(() => {
     toggleDark()
-  })
-
-  transition.ready.then(() => {
-    const direction = isDark.value ? 'reverse' : 'normal'
-    const str = isDark.value ? 'old' : 'new'
-    document.documentElement.animate(
-      {
-        clipPath: [
-          `circle(0 at ${x}px ${y}px)`,
-          `circle(${endRadius}px at ${x}px ${y}px)`
-        ]
-      },
-      {
-        direction,
-        duration: 400,
-        easing: 'ease-in',
-        pseudoElement: `::view-transition-${str}(root)`
-      }
-    )
   })
 }
 
