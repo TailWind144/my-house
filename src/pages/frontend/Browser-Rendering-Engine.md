@@ -102,23 +102,6 @@ meta:
 
 这也是我们常说的 <u>CSS 动画性能好</u>的原因，因为它们可以在合成器线程中运行。这意味着，如果浏览器在主线程上运行一些开销较大的任务，这些动画可以继续运行，而不会被阻塞。同时也不会触发回流重绘，因为这些阶段被跳过了。
 
-## 数据结构
-
-这里就记录一个属性树的部分概念，其他像显示列表、合成器帧的概念可以查看[文档](https://developer.chrome.google.cn/docs/chromium/renderingng-data-structures?hl=zh-cn)中的说明。
-
-### 属性树
-
-在 Web 上，视觉效果和滚动效果非常复杂。为了将这种复杂性转换为一个精确表示其结构和含义的单一数据结构，同时移除 DOM 和 CSS 的其余复杂性，因此就有了**属性树**。
-
-每个页面文档都有**四个**单独的属性树：
-
-- 转换树（*transform tree*）：表示 `transform` 和滚动。
-- 剪裁树（*clip tree*）：表示 `overflow` 的溢出剪裁。
-- 效果树（*effect tree*）：表示所有其他视觉效果（`opacity`、`filters`、`masks`、`blend-mode`），以及其他类型的剪裁（例如 `clip-path`）。
-- 滚动树（*scroll tree*）：表示关于滚动的信息，例如[滚动链](https://developer.mozilla.org/zh-CN/docs/Web/CSS/overscroll-behavior)。
-
-每个 DOM 元素都有一个**属性树状态**，它是一个 4 元组（transform、clip、effect、scroll）对应这四种树，表示对该元素有效的**最近**的祖先属性树节点。
-
 ## 进程和线程结构
 
 ### CPU 进程
