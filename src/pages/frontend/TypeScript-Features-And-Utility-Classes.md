@@ -128,6 +128,107 @@ type isNever<T> = [T] extends [never] ? true : false
 type b = isNever<never>
 ```
 
+## 协变、逆变和不变
+
+在类型系统中，都存在着几种针对类型关系如何在泛型类型中变化的规则，即**协变、逆变和不变**。它们是保证在类型编程中类型安全的重要机制。
+
+### 里氏替换原则
+
+在理解协变、逆变和不变前，我们先来明确父子类型的替换关系：如果一个类型 A 是另一个类型 B 的子类型，那么在任何使用 B 的地方都可以使用 A，而不会引起错误或异常。即<u>父类型能做到的，换成子类型也一定能做到</u>，这种行为就是我们常说的**里氏替换原则**。
+
+```ts
+type Animal = { name: string }
+type Cat = Animal & { meow: () => void }
+
+const cat: Cat = { name:'cat', meow: () => {} }
+const animal: Animal = cat	// 允许赋值
+```
+
+因为 `Cat` 是 `Animal` 的子类，因此它具有 `Animal` 类的所有成员，满足里氏替换原则，具备类型安全。
+
+但反过来便不能正常赋值。因为 `animal` 对象缺少类型 `Cat` 的部分成员，在后续的代码逻辑中可能会访问 `animal` 对象所不拥有的成员导致报错，不满足里氏替换原则。
+
+而协变和逆变的目的就是为了满足里氏替换原则来保证类型安全。
+
+### 协变
+
+**协变**指**生产者类型**（仅输出 `T` 的类型）的子类型关系保留原始类型的子类型关系。即如果 `A` 是 `B` 的子类型，则 `T<A>` 也是 `T<B>` 的子类型（保持方向）。
+
+- **数组**
+
+```ts
+type Animal = { name: string }
+type Cat = Animal & { meow: () => void }
+
+let cats: Cat[] = [{ name: "Whiskers", meow: () => {} }]
+let animals: Animal[] = cats // 协变允许赋值（Cat[] 是 Animal[] 的子类型）
+```
+
+- **对象**
+
+```ts
+type Producer<T> = { get: () => T }
+let catProducer: Producer<Cat> = { get: () => ({ name: "Whiskers", meow: () => {} }) }
+let animalProducer: Producer<Animal> = catProducer // 协变允许赋值
+```
+
+在以上两者场景中，我们可以将泛型类型的子类型实现赋值给约束为对应泛型类型的父类型变量。因为后续针对泛型类型的父类型的逻辑处理，其泛型类型的子类型也一定能够处理。因此此时它们仍然保持原类型的父子类型关系，即发生了**协变**，满足里氏替换原则。
+
+### 逆变
+
+**逆变**主要出现在**消费者类型**（仅输入 `T` 的类型）的场景中，典型的场景就是函数的参数类型，它们的子类型关系是相反的。例如：
+
+```ts
+type AnimalHandler = (animal: Animal) => void
+type CatHandler = (cat: Cat) => void
+
+let animalHandler: AnimalHandler = (a) => console.log(a.name)
+let catHandler: CatHandler = animalHandler // 逆变允许赋值
+```
+
+在以上代码中，函数 `animalHandler` 的参数类型为 `Animal`。`Animal` 是 `Cat` 的父类，因此在类型 `AnimalHandler` 的实现中，对函数参数的访问一定不会超出 `Cat` 的约束（因为 `Animal` 的成员一定包含于 `Cat` 中  ），所以允许赋值。此时可以认为 `AnimalHandler` 是 `CatHandler` 的子类型，即发生了**逆变**，满足里氏替换原则。
+
+但反过来便不能正常赋值。因为 `Cat` 拥有 `Animal` 没有的成员，`CatHandler` 的实现函数中可能会访问 `Animal` 所没有的成员。因此为了保证类型安全，不会允许赋值。
+
+> **注意**：在 TypeScript 中， [参数类型是双向协变的](https://github.com/Microsoft/TypeScript/wiki/FAQ#why-are-function-parameters-bivariant) ，也就是说既是协变又是逆变的，但这会破坏类型安全。可以通过 `--strictFunctionTypes` 或 `--strict` 标记来修复这个问题。
+
+### 不变
+
+若泛型类型同时涉及输入和输出 `T`，则该类型既不存在协变也不存在逆变，而是**不变**。即使 `A` 是 `B` 的子类型，`T<A>` 和 `T<B>` 之间也没有任何继承关系。例如：
+
+```ts
+interface Box<T> {
+    value: T;
+    set: (v: T) => void;
+}
+
+let catBox1: Box<Cat> = {
+    value: { name: "Whiskers", meow: () => {} },
+    set: (c: Cat) => {}
+};
+let animalBox1: Box<Animal> = catBox1 // 不允许赋值
+
+let animalBox2: Box<Animal> = {
+    value: { name: "Whiskers" },
+    set: (c: Animal) => {}
+};
+let catBox2: Box<Cat> = animalBox2 // 不允许赋值
+```
+
+假设以上情况是协变的，即允许 `animalBox1 = catBox1`，当 `animalBox1` 调用其 `set` 方法并传入一个 `Animal` 类型或其他子类类型的参数时，显然是不安全的（`catBox1.set` 可能会访问传入参数没有的成员）；假设是逆变的，即允许 `catBox2 = animalBox2`，当 `catBox2` 对象访问 `value.meow` 方法时，显然是不安全的（`animalBox2.value` 没有 `meow` 方法）。
+
+可以发现这里的协变和逆变不可能同时满足，无论选择协变还是逆变，都会破坏另一方的类型安全。因此，唯一安全的选择是**不变**。即它们之间并不存在父子类关系，也就不存在需要满足里氏替换原则。
+
+> **注意**：TypeScript 的数组默认是**协变**的，这是 TypeScript 在实用性和类型安全性之间做出的权衡。
+>
+> ```ts
+> const cats: Cat[] = [myCat];
+> const animals: Animal[] = cats; // ✅ 允许赋值（协变）
+> 
+> animals.push({ name: "Dog" }); // 污染猫数组
+> cats[1].meow(); // 运行时错误！
+> ```
+
 ## 常用工具类型
 
 在[官方文档](https://www.typescriptlang.org/docs/handbook/utility-types.html)中说明了 TS 中提供的所有内置的工具类型，这里我总结下一些常用的工具类并给出它们的手写实现。
