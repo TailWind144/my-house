@@ -124,7 +124,7 @@ meta:
 
    当该事件触发时，表示页面的所有资源都已经加载完毕。
 
-性能数据可以通过 [PerformanceObserver](https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceObserver/PerformanceObserver) 性能监控对象来获取，该 API 会返回一个相对时间。或者使用 Chrome 开发团队提供的 [web-vitals](https://link.juejin.cn?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fweb-vitals) 库，方便来计算各性能数据（注意：web-vitals 不支持 Safari 浏览器）。
+性能数据可以通过 [PerformanceObserver](https://developer.mozilla.org/zh-CN/docs/Web/API/PerformanceObserver/PerformanceObserver) 性能监控对象来获取，该 API 会返回一个相对时间。或者使用 Chrome 开发团队提供的 [web-vitals](https://www.npmjs.com/package/web-vitals) 库，方便来计算各性能数据（注意：web-vitals 不支持 Safari 浏览器）。
 
 ### 资源加载
 
