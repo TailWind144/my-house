@@ -216,9 +216,9 @@ try {
 
   初始化：`globalVersion - 1`
 
-  何时更新：有响应式数据发生变化时，与 `computed.globalVersion` 进行同步。
+  何时更新：在与 `globalVersion` 比对完成后，若与之不同则与 `globalVersion` 进行同步。
 
-  何时比对：在判断 `computed` 是否需要重新执行时，与 `globalVersion` 进行比对。
+  何时比对：在 `refreshComputed` 函数中判断 `computed` 是否需要重新执行时，与 `globalVersion` 进行比对。
 
 - `globalVersion`
 

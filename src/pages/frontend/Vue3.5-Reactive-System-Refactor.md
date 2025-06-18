@@ -92,17 +92,17 @@ class Dep {
 
 ```tsx
 class Link {
-    // 指向 Subscriber 订阅者
+    // 指向 Subscriber 副作用函数
     sub: Subscriber
     // 指向 Dep 响应式数据
     dep: Dep
-    // 指向当前所在的 Dep to Subs doubly-linked list 链表的下一个节点
-    nextDep: Link
-    // 指向当前所在的 Dep to Subs doubly-linked list 链表的上一个节点
-    prevDep: Link
     // 指向当前所在的 Sub to Deps doubly-linked list 链表的下一个节点
-    nextSub: Link
+    nextDep: Link
     // 指向当前所在的 Sub to Deps doubly-linked list 链表的上一个节点
+    prevDep: Link
+    // 指向当前所在的 Dep to Subs doubly-linked list 链表的下一个节点
+    nextSub: Link
+    // 指向当前所在的 Dep to Subs doubly-linked list 链表的上一个节点
     prevSub: Link
 }
 ```
@@ -241,9 +241,9 @@ function cleanupDeps(sub: Subscriber) {
         const prev = link.prevDep
         if (link.version === -1) {	// [!code highlight]
             if (link === tail) tail = prev
-            // 从 Sub to Deps doubly-linked list 链表中移除
+            // 从 Dep to Subs doubly-linked list 链表中移除
             removeSub(link)	// [!code highlight]
-            // 同时也从 Dep to Subs doubly-linked list 链表中移除
+            // 同时也从 Sub to Deps doubly-linked list 链表中移除
             removeDep(link)	// [!code highlight]
         } else {
             // The new head is the last node seen which wasn't removed
