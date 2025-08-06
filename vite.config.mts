@@ -2,7 +2,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { basename, dirname, resolve } from 'node:path'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
-import Markdown from 'vite-plugin-vue-markdown'
+import Markdown from 'unplugin-vue-markdown/vite'
 import Pages from 'vite-plugin-pages'
 import matter from 'gray-matter'
 import fs from 'fs-extra'
@@ -10,6 +10,7 @@ import vue from '@vitejs/plugin-vue'
 import anchor from 'markdown-it-anchor'
 import TOC from 'markdown-it-table-of-contents'
 import LinkAttributes from 'markdown-it-link-attributes'
+import MarkdownItGitHubAlerts from 'markdown-it-github-alerts'
 import Shiki from '@shikijs/markdown-it'
 import {
   transformerNotationDiff,
@@ -65,6 +66,7 @@ export default defineConfig({
           containerHeaderHtml:
             '<div class="table-of-contents-anchor"><Menu /></div>'
         })
+        md.use(MarkdownItGitHubAlerts)
       }
     }),
     Pages({
