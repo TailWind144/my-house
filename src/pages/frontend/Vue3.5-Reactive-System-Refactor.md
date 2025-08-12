@@ -9,11 +9,13 @@ meta:
 
 [[toc]]
 
-在 2024 年 9 月 3 日，Vue 发布了 3.5.0 版本的更新。在 3.5 版本中，Vue 对响应式系统做了一个大的重构，将过去通过 `WeakMap` 存储副作用函数（`watchEffect`、`watch`、`computed`、`render`，又叫做订阅者）与响应式数据（发布者）之间依赖关系的方式转变为使用**双向链表**和**版本计数**。
+在 2024 年 9 月 3 日，Vue 发布了 3.5.0 版本的更新。在 3.5 版本中，Vue 对响应式系统做了一个大的重构，将过去通过 `WeakMap` 存储副作用函数（`watchEffect`、`watch`、`computed`、`render`，又叫做订阅者）与响应式数据（发布者）之间依赖关系的方式转变为采用 **Signals** 的响应式设计思想（**双向链表**和**版本计数**）。
 
 这篇文章重点说明双向链表如何解决依赖清理问题，对于版本计数的详细内容会在后续的文章中进行补充。
 
 当然，这次响应式系统的重构也不是第一次，在 3.4 版本中已经对 Vue 的响应式进行了一次大的修改，但也就存在了一个子版本后就被 3.5 的双向链表和版本计数给替代了，所以这次重构也不知道后续会不会发生进一步的变化。
+
+> 从目前 Vue 3.6 版本（[minor](https://github.com/vuejs/core/tree/minor) 分支）已合并的 [PR](https://github.com/vuejs/core/pull/12570) 来看，未来将引入 [Alien Signals](https://github.com/stackblitz/alien-signals) 来进一步优化响应式系统性能。
 
 ## 目的
 
@@ -107,7 +109,12 @@ class Link {
 }
 ```
 
-采用双向链表的结构在新增、删除和迭代上的时间复杂度与之前的 `WeakMap` 和 `Set` 的方式并没有什么不同，新增删除都是 O(1)，迭代都是 O(n)。但采用双向链表后的其中一个优化点就是**依赖清理**时的数据复用。
+采用双向链表的结构在新增、删除和迭代上的时间复杂度与之前的 `WeakMap` 和 `Set` 的方式并没有什么不同，新增删除都是 O(1)，迭代都是 O(n)。双向链表带来的好处主要在于：
+
+> [!Tip] 优点
+>
+> 1. 优化创建开销：`Set` 的创建开销相对昂贵，尤其是对于一个 `computed` 至少需要两个 `Set` 集合来维护依赖关系。
+> 2. **依赖清理**时的数据复用：`Set` 需要先移除再添加或者清空重建内部依赖关系，存在内存抖动；而链表可以很好地复用节点。
 
 ### 依赖清理
 
@@ -277,15 +284,17 @@ function cleanupDeps(sub: Subscriber) {
 但是注意，`Dep` 只有一个指向链表尾部 Link 的指针 `subs`，也就是说是从最后的 Link 节点向上遍历找到所有的副作用函数。在 `dep.notify` 方法中通过节点的 `prevSub` 指针来迭代 *Dep to Subs doubly-linked list* 链表以通知所有依赖于该响应式数据的副作用函数。
 
 ```tsx
-// dep.notify 方法会在 dep.trigger 中调用
+// dep.notify
+// 该方法会在 dep.trigger 中调用
 notify(debugInfo?: DebuggerEventExtraInfo): void {
     startBatch()
     try {
       // ...
       for (let link = this.subs; link; link = link.prevSub) {	// [!code highlight]
         if (link.sub.notify()) {	// [!code highlight]
-          // 如果 notify() 返回 true，说明该副作用函数是一个 computed。
-          // 还需要通知该 computed 所依赖的响应式数据
+          // 如果 notify() 返回 true，说明该副作用函数是一个 computed
+          // （其他副作用函数会返回 undefined）
+          // 因此，还需要通知依赖了该 computed 的副作用函数
           // 在这里调用而不是在 computed 内部通知，是为了避免过长的递归调用栈
           ;(link.sub as ComputedRefImpl).dep.notify()
         }
@@ -297,9 +306,9 @@ notify(debugInfo?: DebuggerEventExtraInfo): void {
 }
 ```
 
-在这里我们可以发现两个新的函数——`startBatch` 和 `endBatch`，这是 Vue 3.5 引入的批处理 API，使得副作用函数不会立即执行，而是先将所有需要重新执行的副作用函数通过一个 <u>`batchedEffect` 链表</u>关联起来。
+在这里我们可以发现两个新的函数——`startBatch` 和 `endBatch`，这是 Vue 3.5 引入的批处理 API，使得副作用函数不会立即执行，而是先将所有需要重新执行的副作用函数通过一个 <u>`batchedSub` 链表</u>关联起来。
 
-在执行 `sub.notify` 方法时，会执行一个 `batch` 函数。在该函数中会维护一个 `batchedEffect` 链表，执行时将当前的副作用函数添加到链表的头部位置。
+在执行 `sub.notify` 方法时，会执行一个 `batch` 函数。在该函数中会维护一个 `batchedSub` 链表，执行时将当前的副作用函数添加到链表的头部位置。
 
 ```tsx
 let batchDepth = 0
@@ -318,9 +327,11 @@ export function batch(sub: Subscriber, isComputed = false): void {
 }
 ```
 
-因此不是向下遍历的原因，是因为此处链表维护的逻辑。最终在 `endBatch` 函数中遍历 `batchedEffect` 链表时，仍然是从前往后去执行副作用函数的 `trigger` 方法来重新执行函数的。这里的后续逻辑会涉及到版本计数，所以留在下一篇文章中讲述。
+因此不是向下遍历的原因，是因为此处链表维护的逻辑。最终在 `endBatch` 函数中遍历 `batchedSub` 链表时，仍然是从前往后去执行副作用函数的 `trigger` 方法来重新执行函数的。
 
-除此之外，其实还跟 `computed` 有关，这主要是因为 `computed` 它既可以是副作用函数（`Sub`），也可以作为响应式数据（`Dep`）。
+其次，我们需要注意的是，`computed` 是一个特殊的副作用函数，**它既可以作为副作用函数（`Sub`），又可以作为响应式数据（`Dep`）**。因此在通知此时作为副作用函数的 `computed` 时，那么还会通知依赖了该 `computed` 的副作用函数。同时，在 `computed` 的 `notify` 方法中调用 `batch` 函数时还会传递第二个参数 `isComputed` 为 `true`，使得当前的 `computed` 副作用函数不会被添加到 `batchedSub` 链表，而是添加到 `batchedComputed` 链表中。
+
+后续的逻辑会涉及到版本计数，这里留到下一篇文章中继续讲述。
 
 ## 参考资料
 

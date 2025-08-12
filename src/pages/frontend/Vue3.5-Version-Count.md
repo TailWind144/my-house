@@ -34,7 +34,7 @@ export function endBatch(): void {
     while (e) {
       const next: Subscriber | undefined = e.next
       e.next = undefined
-      e.flags &= ~EffectFlags.NOTIFIED
+      e.flags &= ~EffectFlags.NOTIFIED	// [!code highlight]
       e = next
     }
   }
@@ -66,11 +66,14 @@ export function endBatch(): void {
 }
 ```
 
-我们可以发现在迭代 `batchedEffect` 链表的过程中，会将不再用的指针指向 `undefined`，以清空 `batchedEffect` 链表。
+我们可以发现在迭代 `batchedComputed` 和 `batchedSub` 链表的过程中，会将不再用的指针指向 `undefined`，以清空这两个链表。
 
-每次迭代都会调用 `sub.trigger` 方法：
+其次，在迭代 `batchedComputed` 链表时只是更新了对应 `computed` 的标志位，并没有直接去重新执行 `computed`。上一篇文章中我们提到，依赖了当前 `computed` 的副作用函数也会被添加进链表中，因此会在后续迭代这些副作用函数时会去进一步判断当前作为响应式数据的 `computed` 是否发生变化。
+
+每次 `batchedSub` 链表的迭代都会调用 `sub.trigger` 方法：
 
 ```tsx
+// sub.trigger
 trigger(): void {
   if (this.flags & EffectFlags.PAUSED) {
     pausedQueueEffects.add(this)
@@ -110,11 +113,15 @@ function isDirty(sub: Subscriber): boolean {
 }
 ```
 
-因为 `computed` 它既可以是响应式数据（`Dep`），也可以作为副作用函数（`Sub`）。因此对于 `computed` 作为响应式数据时，还需要执行 `refreshComputed` 函数，从而进一步判断该 `computed` 是否发生变化，关于 `refreshComputed` 的具体逻辑我们后面在说。
+如果 `link.version` 与 `dep.version` 相同，此时需要进一步判断当前的响应式数据是否是一个 `computed`。
+
+当 `computed` 作为响应式数据时其 `version` **并不会被直接更新**，因为<u>作为副作用函数的它本身是依赖于其他的响应式数据的</u>，因此在进一步执行后续的逻辑之前，作为响应式数据的 `computed` 的版本一定是与 `link.version` **相同**的。
+
+那么如果此时的响应式数据是一个 `computed` 时，还需要执行 `refreshComputed` 函数，从而进一步判断该 `computed` 是否发生变化，关于 `refreshComputed` 的具体逻辑我们后面在说。
 
 ### 何时更新版本
 
-那版本号会在何时进行更新呢？很显然，当响应式数据发生变化时就应该对版本号进行更新。全局的 `trigger` 函数会在响应式数据触发 `set` 时调用，在该函数内会调用 `dep.trigger` 方法来更新版本号。
+那版本号会在何时进行更新呢？很显然，当响应式数据发生变化时就应该对版本号进行更新。全局的 `trigger` 函数会在响应式数据触发 `set` 时调用，在该函数内会调用 `dep.trigger` 方法来更新版本号（这也是刚刚所说的，依赖于其他响应式数据的 `computed`，它的版本号并不会在此时更新）。
 
 ```tsx
 trigger(debugInfo?: DebuggerEventExtraInfo): void {
@@ -130,7 +137,7 @@ trigger(debugInfo?: DebuggerEventExtraInfo): void {
 
 ## computed
 
-在刚刚的代码中我们看到除了 `dep.version` 还有另一个**全局版本号** `globalVersion`，全局版本号会在任何响应式数据发生变化时自加 `1`，它为 `computed` 提供了快速判断是否需要重新计算的方法。
+在刚刚的代码中我们看到除了 `dep.version` 还有另一个**全局版本号** `globalVersion`，全局版本号会在任何响应式数据发生变化时自加 `1`，它为 `computed` 提供了快速判断是否需要重新计算的方法。也就是说，`computed` 拥有**两个版本号**，一个是在 `computed` 上的全局版本号 `globalVersion`，另一个是其作为响应式数据时即 `computed.dep` 上的版本号 `version`。
 
 现在我们再来看看 `refreshComputed` 函数：
 
@@ -152,7 +159,7 @@ export function refreshComputed(computed: ComputedRefImpl): undefined {
 ```tsx
 // function: refreshComputed
 // ...
-// 这里的 dep 是该 computed 对应的 dep 实例对象
+// 这里的 dep 是该 computed 作为响应式数据时对应的 dep 实例对象
 const dep = computed.dep
 computed.flags |= EffectFlags.RUNNING
 if (
@@ -188,9 +195,9 @@ try {
 }
 ```
 
-`computed` 此时作为副作用函数，它是否需要更新要根据其依赖的响应式数据是否发生变化来决定，因此调用 `isDirty(computed)` 来进一步判断。如果返回 `false`，意味着 `computed` 不需要更新。否则，重新执行 `computed` 的回调函数，同时更新该 `computed` 对应的 `dep` 实例对象的版本号，意味着该 `computed` 发生了变化。
+`computed` 此时作为副作用函数，它是否需要重新执行要根据其依赖的响应式数据是否发生变化来决定，因此调用 `isDirty(computed)` 来进一步判断。如果返回 `false`，意味着 `computed` 不需要更新。否则，重新执行 `computed` 的回调函数；如果更新后的 `computed` 与之前不相同，则更新该 `computed` 对应的 `dep` 实例对象的版本号，意味着该 `computed` 发生了变化。
 
-在 `isDirty` 函数中 `(refreshComputed(link.dep.computed) || link.dep.version !== link.version))`在执行完 `refreshComputed` 逻辑后，会再一次比对节点的版本号 `link.version` 与响应式数据的版本号 `dep.version` 是否相同来决定是否要重新执行副作用函数。
+在 `isDirty` 函数中，`(refreshComputed(link.dep.computed) || link.dep.version !== link.version))` 在执行完 `refreshComputed` 逻辑后，会再一次比对节点的版本号 `link.version` 与作为响应式数据的 `computed` 的版本号 `dep.version` 是否相同来决定是否要重新执行该副作用函数。这意味着，只有 `computed` 的值与之前不同时，才会重新执行依赖了此 `computed` 的副作用函数。
 
 ## 总结
 
@@ -208,7 +215,10 @@ try {
 
   初始化：`0`
 
-  何时更新：在对应的响应式数据发生变化时自加 `1`。
+  何时更新：
+
+  - 普通响应式数据：在对应的响应式数据发生变化时自加 `1`。
+  - `computed`：在 `refreshComputed` 函数中，当依赖的响应式数据发生变化且与旧值不相同时自加 `1`。
 
   何时比对：在执行副作用函数前，在 `isDirty` 函数中与 `link.version` 进行比对。
 
