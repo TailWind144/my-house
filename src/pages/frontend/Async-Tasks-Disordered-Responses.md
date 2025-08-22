@@ -96,13 +96,17 @@ const queue = new Queue().addQueue(sayTheName).addQueue(sayNextName)
 // 再过1秒后又输出 sayNextName
 ```
 
+> [!WARNING]
+>
+> 需要注意的是，这种方法存在一个最大的问题：*过去无用的请求任务没有完成，<u>新的有效请求任务并不能执行</u>*。
+
 ## 取消请求
 
-另一种方法就是**取消请求**，即把之前的请求取消，发起一个新的请求，保证对于同一种请求而言同一时间只存在一个有效请求，从而避免响应结果被覆盖的情况。
+另一种最佳的解决方案就是**取消请求**，即把之前的请求取消，发起一个新的请求，保证对于同一种请求而言同一时间只存在一个有效请求，从而避免响应结果被覆盖的情况。
 
 对于 XHR 类型的请求，可以直接通过调用 XHR 对象上的 `abort` 方法来取消；对于 fetch 请求，则是通过 [`AbortController`](https://developer.mozilla.org/zh-CN/docs/Web/API/AbortController) 对象来实现。这里主要讲讲 `AbortController` 如何来取消请求。
 
-首先，实例化一个 `AbortController` 对象 `controller`，在 fetch 请求的第二参数即 `options` 中设置 `signal` 为 `controller.signal`。`controller.signal` 会返回一个 [`AbortSignal`](https://developer.mozilla.org/zh-CN/docs/Web/API/AbortSignal) 对象实例，可以用它来和异步操作进行通信或者中止这个操作。若需要取消请求，直接调用 `controller.abort()` 方法即可。
+首先，实例化一个 `AbortController` 对象 `controller`，在 fetch 的第二个参数即 `options` 中设置 `signal` 为 `controller.signal`。`controller.signal` 会返回一个 [`AbortSignal`](https://developer.mozilla.org/zh-CN/docs/Web/API/AbortSignal) 对象实例，可以用它来和异步操作进行通信或者中止这个操作。若需要取消请求，直接调用 `controller.abort()` 方法即可。
 
 在搜索框提示词场景中，每次发起请求前，执行控制器对象上的 `abort` 方法把之前的请求取消，然后再发起一个新的请求即可。
 
@@ -125,6 +129,70 @@ input.oninput = () => {
 
 通常在开发过程中都会使用到第三方的请求库，例如 `axios`，而 `axios` 也是采用 `AbortController` 来进行取消请求的。
 
+## 清理函数
+
+在 React 的[官方教程](https://zh-hans.react.dev/learn/synchronizing-with-effects#fetching-data)中就提到， 在 `Effect` 中需要获取数据时，清理函数应中止请求或**忽略其结果**：
+
+```tsx
+useEffect(() => {
+  let ignore = false; // [!code highlight]
+
+  async function startFetching() {
+    const json = await fetchTodos(userId);
+    if (!ignore) {	// [!code highlight]
+      setTodos(json);
+    }
+  }
+
+  startFetching();
+
+  return () => {	// [!code highlight]
+    ignore = true;	// [!code highlight]
+  };	// [!code highlight]
+}, [userId]);
+```
+
+React 在每次 `Effect` 重新运行之前会调用清理函数，利用这一点我们可以解决响应乱序问题。同类请求被重复发送时，在重新执行 `Effect` 前会调用清理函数（`Effect` 中返回的函数），将上一次 `Effect` 中的 `ignore` 设置为 `true`。从而使得旧请求返回后，可以通过判断 `ignore` 的值来忽略旧请求的响应结果。
+
+基于这套方案，我们可以自己实现一个与 `Effect` 中清理函数逻辑类似的工具函数，从而在其他框架中解决响应乱序问题：
+
+```js
+function useApiIgnore() {
+    let cleanFn = null
+    return (cb) => {
+      cleanFn && cleanFn()
+      cleanFn = cb()
+    }
+}
+```
+
+我们返回一个闭包函数，利用该闭包我们可以去创建一个局部私有的变量 `cleanFn` 去存储返回的清理函数。每次在调用实际的事件回调函数前，会先调用清理函数再执行回调。
+
+有了这个工具函数，我们就可以在元素对应的事件中去调用返回的闭包函数，并利用一个变量 `ignore` 和返回的清理函数来解决响应乱序问题。举个例子：
+
+```js
+const apiIgnore = useApiIgnore()	// 先调用工具函数来获取闭包
+boxRef.addEventListener("click", () => {
+    apiIgnore(() => {
+      let ignore = false
+
+      const apiGet = async () => {
+        const res = await new Promise((resolve) => {
+          setTimeout(() => resolve(1000), 1000)
+        })
+        if (!ignore) {
+          console.log(res)
+        }
+      }
+      apiGet()
+
+      return () => (ignore = true)
+    })
+})
+```
+
+在以上例子中多次点击元素 `boxRef`，只会打印一次 `res` 的结果。
+
 ## 总结
 
-这里所讨论响应乱序问题不止存在于搜索框提示词，还有许多类似的场景。比如页面中有多个 tab 页，通过点击 tab 页发起请求来获取用于展示不同的列表项数据，这里也会存在响应结果乱序的问题。
+这里所讨论响应乱序问题不止存在于搜索框提示词，还有许多类似的场景。只要请求可能存在“**竞态条件**”，即两个不同的请求 “相互竞争”，并以与预期不符的顺序返回，就会出现响应乱序问题。
