@@ -200,6 +200,42 @@ html.dark .prose {
   margin-bottom: 1.25em;
 }
 
+.prose table {
+  width: 100%;
+  table-layout: auto;
+  text-align: left;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  font-size: 0.875em;
+  line-height: 1.7142857;
+}
+.prose thead {
+  color: var(--fg-deep);
+  font-weight: 600;
+  border-bottom-width: 1px;
+  border-bottom-color: #8882;
+}
+.prose thead th {
+  vertical-align: bottom;
+  padding-right: 0.5714286em;
+  padding-bottom: 0.5714286em;
+  padding-left: 0.5714286em;
+}
+.prose tbody tr {
+  border-bottom-width: 1px;
+  border-bottom-color: #8882;
+}
+.prose tbody tr:last-child {
+  border-bottom-width: 0;
+}
+.prose tbody td {
+  vertical-align: top;
+  padding-top: 0.5714286em;
+  padding-right: 0.5714286em;
+  padding-bottom: 0.5714286em;
+  padding-left: 0.5714286em;
+}
+
 a.item {
   transition: 0.2s all ease-out;
   text-decoration: none;
