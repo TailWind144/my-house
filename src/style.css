@@ -15,6 +15,14 @@
   letter-spacing: 0.5px;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+:target {
+  scroll-margin-top: 72px;
+}
+
 :root {
   --from: 100% 0 0 0;
   --c-bg: #fff;
