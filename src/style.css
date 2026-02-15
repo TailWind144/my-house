@@ -26,6 +26,7 @@ html {
 :root {
   --from: 100% 0 0 0;
   --c-bg: #fff;
+  --bg-alert-code: #fff;
   --c-border: #dcdfe6;
   --c-border-hover: #4c4d4f;
   --c-scrollbar: #ccc;
@@ -51,6 +52,7 @@ html {
 html.dark {
   --from: 0 0 100% 0;
   --c-bg: #141414;
+  --bg-alert-code: #0f172b;
   --c-border: #4c4d4f;
   --c-border-hover: #dcdfe6;
   --c-scrollbar: #444;
@@ -635,4 +637,88 @@ h6:focus .header-anchor {
 .slide-right-leave-to {
   opacity: 0;
   transform: translateX(-10px);
+}
+
+.markdown-alert {
+  font-size: 14px;
+  border: 1px solid var(--alert-border-color);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  padding: 12px 16px;
+  border-radius: 6px;
+}
+.markdown-alert a {
+  color: var(--text-color);
+  border-bottom-color: var(--alert-border-color);
+}
+.markdown-alert a:hover {
+  color: var(--text-color);
+  border-bottom-color: var(--alert-border-hover);
+}
+.markdown-alert ol > li::before {
+  color: var(--text-color);
+}
+.markdown-alert ul > li::before {
+  top: calc(0.875em - 0.0875em);
+  background-color: var(--text-color);
+}
+.markdown-alert p code,
+.markdown-alert li code {
+  color: var(--text-color);
+  background-color: var(--bg-alert-code);
+}
+
+.markdown-alert.markdown-alert-note {
+  --text-color: #155dfb;
+  --bg-color: #267fff1a;
+  --alert-border-color: #267fff4d;
+  --alert-border-hover: #267fff;
+}
+.markdown-alert.markdown-alert-caution {
+  --text-color: #b91c1c;
+  --bg-color: #ef44441a;
+  --alert-border-color: #ef44444d;
+  --alert-border-hover: #ef4444;
+}
+.markdown-alert.markdown-alert-warning {
+  --text-color: #d08700;
+  --bg-color: #f0b3001a;
+  --alert-border-color: #f0b3004d;
+  --alert-border-hover: #f0b300;
+}
+.markdown-alert.markdown-alert-tip {
+  --text-color: #00a155;
+  --bg-color: #00c16a1a;
+  --alert-border-color: #00c16a4d;
+  --alert-border-hover: #00c16a;
+}
+.markdown-alert.markdown-alert-important {
+  --text-color: #6b21a5;
+  --bg-color: #a855f71a;
+  --alert-border-color: #a855f74d;
+  --alert-border-hover: #a955f7;
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1;
+  font-size: 1rem;
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert > :first-child {
+  margin-top: 8px;
+}
+
+.markdown-alert > :last-child {
+  margin-bottom: 0;
 }
