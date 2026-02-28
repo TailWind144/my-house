@@ -117,7 +117,7 @@ const queue = new Queue().addQueue(sayTheName).addQueue(sayNextName)
 > 有点类似于防抖函数的实现，只是这里是请求层面的防抖，而我们常说的防抖是在事件触发层面上的。
 
 ```js
-input.oninput = () => {
+input.oninput = (() => {
     let controller = null
     return async function() {
         controller && controller.abort()	// [!code highlight]
@@ -128,7 +128,7 @@ input.oninput = () => {
             controller = null
         })
     }
-}
+})()
 ```
 
 通常在开发过程中都会使用到第三方的请求库，例如 `axios`，而 `axios` 也是采用 `AbortController` 来进行取消请求的。

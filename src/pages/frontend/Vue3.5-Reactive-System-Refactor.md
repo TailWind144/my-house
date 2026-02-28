@@ -226,12 +226,14 @@ else if (link.version === -1) {
 
 副作用函数执行前，会调用 `prepareDeps` 函数，将该副作用函数的 *Sub to Deps doubly-linked list* 链表上的所有 Link 节点的 `version` 属性重置为 `-1`。在执行依赖收集函数 `track` 时，`link.version` 会同步到跟 `dep.version` 相同的版本。如果最后版本值还是 `-1`，说明该副作用函数不再依赖该响应式数据。
 
+同时还会将所有依赖的响应式数据的 `activeLink` 指向与当前将执行的副作用函数相关联的 Link 节点，以便直接通过该指针找到对应的节点。
+
 ```ts
 function prepareDeps(sub: Subscriber) {
     for (let link = sub.deps; link; link = link.nextDep) {
         link.version = -1	// [!code highlight]
         link.prevActiveLink = link.dep.activeLink
-        link.dep.activeLink = link
+        link.dep.activeLink = link // [!code highlight]
     }
 }
 ```

@@ -190,7 +190,7 @@ let catHandler: CatHandler = animalHandler // 逆变允许赋值
 
 但反过来便不能正常赋值。因为 `Cat` 拥有 `Animal` 没有的成员，`CatHandler` 的实现函数中可能会访问 `Animal` 所没有的成员。因此为了保证类型安全，不会允许赋值。
 
-> **注意**：在 TypeScript 中， [参数类型是双向协变的](https://github.com/Microsoft/TypeScript/wiki/FAQ#why-are-function-parameters-bivariant) ，也就是说既是协变又是逆变的，但这会破坏类型安全。可以通过 `--strictFunctionTypes` 或 `--strict` 标记来修复这个问题。
+> **注意**：在 TypeScript 中， [参数类型是双向可变的](https://github.com/Microsoft/TypeScript/wiki/FAQ#why-are-function-parameters-bivariant) ，也就是说既是协变又是逆变的。这是为了实用性考虑的一种权衡（保证数组是协变的，因为这更符合直觉），但这会破坏类型安全。你仍可以通过 `--strictFunctionTypes` 或 `--strict` 标记来解决这个问题。
 
 ### 不变
 
