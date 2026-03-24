@@ -115,3 +115,5 @@ Cross-Origin-Opener-Policy: unsafe-none
 - `unsafe-none` 为默认值，表示允许与任何跨域窗口共享 `opener`，除非打开的文档本身的 COOP 为 `same-origin`
 
 > **注意：** [`noopener`](https://developer.mozilla.org/docs/Web/API/Window/open#Window_features) 属性具有与 COOP 类似的效果，但它仅在 opener 端起作用。可以通过 `window.open(url, '_blank', 'noopener')` 或 `<a target="_blank" rel="noopener">`  来添加 `noopener`。
+>
+> 默认情况下，设置为 `target="_blank"` 的 `<a>` 和 `form` 标签隐式具有 noopener 行为，但通过显式指定 `rel="noopener"` 仍有助于保护旧版浏览器的用户。
