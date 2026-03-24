@@ -4,7 +4,9 @@ date: 2025/7/12
 type: frontend
 meta:
   - name: description
-    content: 介绍了什么是微前端，介绍了 iframe、qiankun 到现如今的无界等几种微前端方案
+    content: 介绍了什么是微前端，介绍了 iframe、qiankun 到现如今的无界等几种微前端方案。
+  - name: keywords
+    content: 微前端,qiankun,无界,single-spa,Web架构方案,iframe沙箱,Web前端开发
 ---
 
 [[toc]]

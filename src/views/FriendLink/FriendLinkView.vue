@@ -9,7 +9,7 @@
         v-for="(item, index) in friendLinkObj"
         :key="index"
       >
-        <a :href="item.path" target="_blank">
+        <a :href="item.path" target="_blank" rel="noopener">
           <div class="flex flex-col items-center justify-center">
             <div class="mb-1 h-16 w-16">
               <img class="rounded-full" :src="item.imgPath" />

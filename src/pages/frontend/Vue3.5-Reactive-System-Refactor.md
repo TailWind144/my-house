@@ -4,7 +4,9 @@ date: 2025/1/24
 type: frontend
 meta:
   - name: description
-    content: 介绍 Vue 3.5 对响应式系统的重构，主要介绍双向链表如何解决依赖清理的问题
+    content: 介绍 Vue 3.5 对响应式系统的重构，主要介绍双向链表如何解决依赖清理的问题。
+  - name: keywords
+    content: Vue,Vue3.5,十字双向链表,signal,响应式系统,重构,依赖清理,源码分析
 ---
 
 [[toc]]

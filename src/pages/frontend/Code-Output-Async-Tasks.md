@@ -5,6 +5,8 @@ type: frontend
 meta:
   - name: description
     content: 介绍了前端中一些异步任务的代码输出题
+  - name: keywords
+    content: 代码输出,异步输出,事件循环,setTimeout,Promise,async/await,面试
 ---
 
 [[toc]]

@@ -5,6 +5,8 @@ type: frontend
 meta:
   - name: description
     content: 主要介绍了浏览器渲染引擎相关内容，主要包括渲染的核心任务、渲染管线结构、相关进程和线程
+  - name: keywords
+    content: 浏览器渲染引擎,渲染管线,浏览器相关进程和线程
 ---
 
 [[toc]]

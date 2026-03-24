@@ -28,7 +28,7 @@
       <div class="mx-auto flex items-center justify-center">
         <div
           class="nav-item duration-300 hover:text-[#374151]/100 dark:hover:text-[#e5e7eb]/100"
-          v-for="(item, index) in navObj"
+          v-for="(item, index) in navConst"
           :key="index"
         >
           <router-link :to="item.toPath">
@@ -60,7 +60,7 @@
 import { computed } from 'vue'
 import { useDark, useToggle, useWindowScroll } from '@vueuse/core'
 import { Sunny, Moon, Top } from '@element-plus/icons-vue'
-import navObj from '@/router/navObj'
+import navConst from '@/router/nav-const'
 
 const isDark = useDark({
   storageKey: 'useDarkKEY',

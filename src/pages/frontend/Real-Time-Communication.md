@@ -4,7 +4,9 @@ date: 2024/12/1
 type: frontend
 meta:
   - name: description
-    content: 介绍了几种实时通信方案，包括长轮询、WebSocket、服务器推送事件（SSE）和 WebTransport 
+    content: 介绍了几种实时通信方案，包括长轮询、WebSocket、服务器推送事件（SSE）和 WebTransport。
+  - name: keywords
+    content: Web实时通信方案,长轮询,短轮询,WebSocket,SSE,服务端推送事件,WebTransport,Web前端开发
 ---
 
 [[toc]]
@@ -21,7 +23,7 @@ meta:
 
 ## WebSocket
 
-**WebSocket** 是一种在单个 TCP 连接上进行**全双工通信**的协议。它使得客户端和服务器之间的数据交换变得更加简单和高效，允许服务器主动向客户端推送数据。这项技术使浏览器和服务器能够在<u>无需承受 HTTP 请求 - 响应周期开销</u>的情况下交换数据。
+**WebSocket** 是一种在单个 TCP 连接上进行**全双工通信**的协议，底层基于 socket 套接字实现，因此被叫做 WebSocket。它使得客户端和服务器之间的数据交换变得更加简单和高效，允许服务器主动向客户端推送数据。这项技术使浏览器和服务器能够在<u>无需承受 HTTP 请求 - 响应周期开销</u>的情况下交换数据。WebSocket 的连接是通过 **HTTP 升级请求** 来发起的，这使得它可以复用 HTTP 的 80 或 443 端口，从而穿过防火墙，无需服务器为其额外配置。
 
 ```js
 // 创建一个 WebSocket 连接

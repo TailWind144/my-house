@@ -5,6 +5,8 @@ type: frontend
 meta:
   - name: description
     content: 介绍了什么是“跨域隔离”状态，并进一步介绍四种控制跨域资源的标头——跨域嵌入策略（COEP）、跨域资源共享（CORS）、跨域资源策略（CORP）、跨域开放者策略（COOP），且对涉及到的两种安全攻击——Spectre 攻击和 window.opener 漏洞做了简单介绍
+  - name: keywords
+    content: COEP,CORS,CORP,COOP,跨域隔离,Spectre攻击,window.opener
 ---
 
 [[toc]]

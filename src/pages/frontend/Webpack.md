@@ -4,7 +4,9 @@ date: 2023/9/16
 type: frontend
 meta:
   - name: description
-    content: Webpack 八股
+    content: 引入Webpack的背景，及其打包构建流程。
+  - name: keywords
+    content: Webpack,构建工具,AMD,CMD,打包流程,面试八股,工具链
 ---
 
 [[toc]]

@@ -4,7 +4,9 @@ date: 2024/3/6
 type: frontend
 meta:
   - name: description
-    content: 介绍全局状态管理库，包括为什么要使用全局状态管理库，什么情况下要使用全局状态管理库，并介绍在 VueX 中的五大核心概念，以及 VueX 和 Pinina 的区别
+    content: 介绍全局状态管理库，包括为什么要使用全局状态管理库，什么情况下要使用全局状态管理库，并介绍在 VueX 中的五大核心概念，以及 VueX 和 Pinina 的区别。
+  - name: keywords
+    content: 全局状态管理库,Pinia,Vuex,Web前端开发
 ---
 
 [[toc]]

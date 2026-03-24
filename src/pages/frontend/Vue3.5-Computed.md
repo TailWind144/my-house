@@ -4,7 +4,9 @@ date: 2025/8/13
 type: frontend
 meta:
   - name: description
-    content: Vue 3.5 Computed，主要介绍 Vue 3.5 对 Computed 的优化，包括惰性订阅和自动取消订阅
+    content: Vue 3.5 Computed，主要介绍 Vue 3.5 对 Computed 的优化，包括惰性订阅和自动取消订阅。
+  - name: keywords
+    content: Vue,Vue3.5,computed,惰性订阅,自动取消订阅,源码分析
 ---
 
 [[toc]]

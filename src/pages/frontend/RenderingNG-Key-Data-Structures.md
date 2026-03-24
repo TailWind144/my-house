@@ -5,6 +5,8 @@ type: frontend
 meta:
   - name: description
     content: 主要介绍了浏览器渲染引擎中涉及到的关键数据结构，包括不可变 Fragment 树、属性树、图块。
+  - name: keywords
+    content: 浏览器渲染引擎,不可变Fragment树,属性树,合成器帧,图块,Web前端开发
 ---
 
 [[toc]]

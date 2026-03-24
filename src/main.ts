@@ -33,14 +33,14 @@ export const createApp = ViteSSG(
         meta: { title: '首页' }
       },
       {
-        path: '/Blog',
-        name: 'Blog',
+        path: '/blog',
+        name: 'blog',
         component: () => import('@/views/Blog/BlogView.vue'),
         children: blogNavObj
       },
       {
-        path: '/FriendLink',
-        name: 'FriendLink',
+        path: '/friend-link',
+        name: 'friend-link',
         component: () => import('@/views/FriendLink/FriendLinkView.vue'),
         meta: { title: '友链' }
       },

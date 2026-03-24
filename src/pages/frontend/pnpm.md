@@ -4,7 +4,9 @@ date: 2024/9/18
 type: frontend
 meta:
   - name: description
-    content: 介绍 pnpm 的相关特性，包括 pnpm 的存储策略、非扁平的 node_modules 目录结构以及 workspace 工作区
+    content: 介绍 pnpm 的相关特性，包括 pnpm 的存储策略、非扁平的 node_modules 目录结构以及 workspace 工作区。
+  - name: keywords
+    content: pnpm,幽灵依赖,npm,硬链接,符号链接,Web前端开发
 ---
 
 [[toc]]

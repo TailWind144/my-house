@@ -4,7 +4,9 @@ date: 2026/1/10
 type: frontend
 meta:
   - name: description
-    content: 文章测试了 AoS（Array of Structures）和 SoA（Structure of Arrays	）在不同场景下的访问性能，并解释其原因。
+    content: 文章测试了 AoS（Array of Structures）和 SoA（Structure of Arrays）在不同场景下的访问性能，并解释其原因。
+  - name: keywords
+    content: AoS,SoA,访问性能,数据存储策略
 ---
 
 [[toc]]

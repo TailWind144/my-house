@@ -4,7 +4,9 @@ date: 2024/10/17
 type: frontend
 meta:
   - name: description
-    content: 详细介绍了什么是虚拟 DOM，并介绍了什么是命令式和声明式框架，以及在框架中运行时和编译时指的是什么，并指出了虚拟 DOM 中的“性能”误区，以及虚拟 DOM 的真正优势到底在哪
+    content: 详细介绍了什么是虚拟DOM，并介绍了什么是命令式和声明式框架，以及在框架中运行时和编译时指的是什么，并指出了虚拟DOM中的“性能”误区，以及虚拟 DOM 的真正优势到底在哪。
+  - name: keywords
+    content: 虚拟DOM,Vue,MVVM,Web框架设计思想,面试
 ---
 
 [[toc]]

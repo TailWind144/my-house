@@ -4,7 +4,9 @@ date: 2023/8/29
 type: frontend
 meta:
   - name: description
-    content: 介绍 Flex 布局和 Grid 布局
+    content: 介绍 Flex 布局和 Grid 布局。
+  - name: keywords
+    content: flex,grid,css,布局
 ---
 
 [[toc]]

@@ -4,7 +4,9 @@ date: 2024/3/25
 type: frontend
 meta:
   - name: description
-    content: 介绍 CSS 选择器的权重计算规则
+    content: 介绍 CSS 选择器的权重计算规则。
+  - name: keywords
+    content: css,css选择器权重,类选择器,id选择器,面试
 ---
 
 [[toc]]

@@ -4,7 +4,9 @@ date: 2023/10/5
 type: frontend
 meta:
   - name: description
-    content: 介绍 Node 中的一些常见知识点，包括 fs 模块常用 API、全局对象、事件循环、中间件
+    content: 介绍 Node 中的一些常见知识点，包括 fs 模块常用 API、全局对象、事件循环、中间件。
+  - name: keywords
+    content: node.js,Node,koa,fs,node事件循环,node中间件,Web前端开发,面试八股
 ---
 
 [[toc]]

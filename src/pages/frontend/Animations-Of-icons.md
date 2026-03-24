@@ -4,7 +4,9 @@ date: 2025/3/28
 type: frontend
 meta:
   - name: description
-    content: 详细介绍了几种icons的动画实现方案，包括精灵图动画、SVG动画以及GIF或APNG可动图片方式
+    content: 详细介绍了几种icons的动画实现方案，包括精灵图动画、SVG动画以及GIF或APNG可动图片方式。
+  - name: keywords
+    content: Web动画,精灵图动画,SVG动画,GIF
 ---
 
 [[toc]]

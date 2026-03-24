@@ -72,7 +72,7 @@ export default defineConfig({
     Pages({
       dirs: [
         { dir: 'src/pages/frontend', baseRoute: '/page' },
-        { dir: 'src/pages/deep_learning', baseRoute: '/page' }
+        { dir: 'src/pages/deep-learning', baseRoute: '/page' }
       ],
       extensions: ['vue', 'md'],
       extendRoute(route) {

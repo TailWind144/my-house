@@ -4,7 +4,9 @@ date: 2024/9/27
 type: frontend
 meta:
   - name: description
-    content: 介绍了前端中如何进行大文件上传，包括切片上传、断点续传
+    content: 介绍了前端中如何进行大文件上传，包括切片上传、断点续传。
+  - name: keywords
+    content: 大文件上传,切片,断点续传,文件秒传,Web前端开发
 ---
 
 [[toc]]

@@ -1,15 +1,15 @@
-const navObj = [
+const navConst = [
   {
     name: '首页',
     toPath: '/'
   },
   {
     name: '博客',
-    toPath: '/Blog/frontend'
+    toPath: '/blog/frontend'
   },
   {
     name: '友链',
-    toPath: '/FriendLink'
+    toPath: '/friend-link'
   }
 ]
-export default navObj
+export default navConst

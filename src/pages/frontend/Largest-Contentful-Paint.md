@@ -5,6 +5,8 @@ type: frontend
 meta:
   - name: description
     content: 介绍了 Web 中的性能优化，明确性能优化目标针对性进行优化，以 Largest Contentful Paint (LCP) 为例说明了相关的指标优化手段。
+  - name: keywords
+    content: 性能优化,LCP,Web前端开发
 ---
 
 [[toc]]

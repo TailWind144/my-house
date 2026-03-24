@@ -14,9 +14,7 @@
       </svg>
     </div>
     <div class="h-20 px-2 text-center">
-      <vue-typed-js>
-        <span class="typing align-middle text-xl italic"></span>
-      </vue-typed-js>
+      <span class="typing align-middle text-xl italic"></span>
     </div>
   </div>
 </template>
@@ -35,7 +33,7 @@ onMounted(() => {
       '主要会分享关于Web前端和深度学习的一些知识点。',
       'I will share some knowledge about web front-end and deep learning.',
       '希望对你们有帮助！',
-      'I hope my article will be helpful to you.'
+      'I hope my articles will be helpful to you.'
     ],
     typeSpeed: 50,
     backSpeed: 40,

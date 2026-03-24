@@ -4,7 +4,9 @@ date: 2023/11/14
 type: frontend
 meta:
   - name: description
-    content: 介绍 Reflect 对象，为什么要通过 Reflect 对象执行默认行为
+    content: 介绍 Reflect 对象，为什么要通过 Reflect 对象执行默认行为。
+  - name: keywords
+    content: Reflect对象,Proxy对象,对象基本行为,行为一致性,Web前端开发
 ---
 
 [[toc]]
@@ -28,7 +30,7 @@ JavaScript 中一些默认行为的实现可以通过其他全局对象上一些
 
 另外，使用 Reflect 对象还能使代码更加具有<u>可读性和可维护性</u>。因为 Reflect 对象的 API 方法非常严格，它们的返回值类型和参数要求都非常明确。使得我们开发人员能够更好地理解代码的逻辑和目的，从而避免出现一些难以诊断的错误。
 
-还有一个重要原因在于 `Reflect.get` 和 `Reflect.set` 可以接受第三个参数 `receiver`，而 Proxy 中对应这两个行为的捕获函数也有这第三个参数以表明当前执行该行为的对象，这个参数使得代理对象在执行默认行为 `getter` 和 `setter` 时它的 `this` 可以指向当前访问的对象（在过去执行 `getter` 和 `setter` 时是没有办法去更改 `this` 的指向的），使得对象的行为能够正确执行。
+还有一个最重要原因在于：**保证 Proxy 对象在代理后其<u>对象的基本行为能够与未代理时的行为保持一致</u>**。 `Reflect.get` 和 `Reflect.set` 可以接受第三个参数 `receiver`，而 Proxy 中对应这两个行为的捕获函数也有这第三个参数以表明当前执行该行为的对象，这个参数使得代理对象在执行默认行为 `getter` 和 `setter` 时它的 `this` 可以指向当前访问的对象（在过去执行 `getter` 和 `setter` 时是没有办法去更改 `this` 的指向的），使得对象的行为能够正确执行。
 
 考虑如下一个场景：
 
@@ -59,7 +61,7 @@ console.log(cat.name); // 输出：动物
 
 此时 `cat` 继承的是 `animal` 的代理对象，该代理对象的 `get` 捕获函数的返回结果是通过字面量的方式来返回的，而主要的原因就在于<u>此时的 `target` 指向的是当前的代理对象即 `animal`</u>，所以此时通过字面量访问的是 `animal` 上的 `name`，即返回“动物”。
 
-要解决这个问题，就可以利用 `Reflect.get` 方法来执行 `get` 行为，通过传入第三个参数 `receiver`，就可以<u>使得 `target` 中定义的 `getter` 的 `this` 指向当前执行行为的对象 `receiver`</u>，从而正确执行行为。
+要解决这个问题，就可以利用 `Reflect.get` 方法来执行 `get` 行为，通过传入第三个参数 `receiver`，就可以<u>使得 `target` 中定义的 `getter` 的 `this` 指向当前执行行为的对象 `receiver`</u>，从而正确执行行为，保证行为的一致性。
 
 ```js
 let animal = {

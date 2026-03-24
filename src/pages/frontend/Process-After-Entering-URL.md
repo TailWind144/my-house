@@ -4,7 +4,9 @@ date: 2023/10/10
 type: frontend
 meta:
   - name: description
-    content: 介绍输入 URL 之后的过程
+    content: 介绍输入 URL 之后的过程。
+  - name: keywords
+    content: dns,递归查询,迭代查询,面试
 ---
 
 1. 浏览器先解析输入的内容，判断是否为 URL 地址。

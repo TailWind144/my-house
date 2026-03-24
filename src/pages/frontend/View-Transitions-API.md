@@ -4,7 +4,9 @@ date: 2024/8/12
 type: frontend
 meta:
   - name: description
-    content: 介绍 View Transitions 的用法并给出了一个简单 demo
+    content: 介绍 View Transitions 的用法并给出了一个简单 demo。
+  - name: keywords
+    content: View Transitions,视图转换,动画,Web前端开发
 ---
 
 [[toc]]
